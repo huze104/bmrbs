@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<parent>
+		<artifactId>bmrbs-parent</artifactId>
+		<groupId>com.baidu.iit</groupId>
+		<version>0.0.1</version>
+		<relativePath>pom-parent.xml</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.baidu.iit</groupId>
+	<artifactId>bmrbs</artifactId>
+	<packaging>war</packaging>
+	<name>bmrbs</name>
+	<version>0.0.1</version>
+	<build>
+		<finalName>bmrbs</finalName>
+	</build>
+	
+	 <!-- 主要依赖库的版本定义属性 -->
+	<properties>
+		<ganiteds.version>2.0.0.B1</ganiteds.version>
+	</properties>
+	<dependencies>
+		<!-- springside -->
+		<dependency>
+			<groupId>org.springside</groupId>
+			<artifactId>springside3-core</artifactId>
+		</dependency>
+
+		<!-- spring begin -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>jsr250-api</artifactId>
+		</dependency>
+		<!-- spring end -->
+
+		<!-- orm begin -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+
+		<!-- jdbc driver,参考parent/pom.xml使用实际的jdbc driver-->
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc14</artifactId>
+		</dependency>
+		 
+		<!-- mysql-->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.0.4</version>
+		</dependency>
+		<!-- end mysql -->
+		<!-- orm end -->
+		
+<!--graniteds  -->
+		<dependency>
+			<groupId>org.graniteds</groupId>
+			<artifactId>granite-core</artifactId>
+			<version>${ganiteds.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.graniteds</groupId>
+			<artifactId>granite-hibernate</artifactId>
+			<version>${ganiteds.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.graniteds</groupId>
+			<artifactId>granite-spring</artifactId>
+			<version>${ganiteds.version}</version>
+		</dependency>
+		<!--	graniteds end -->
+		<!-- web begin -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		<!-- web end -->
+
+		<!-- spring security -->
+		<dependency>
+			<groupId>org.springframework.security
+			</groupId>
+			<artifactId>spring-security-core-tiger
+			</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security
+			</groupId>
+			<artifactId>spring-security-taglibs
+			</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security
+			</groupId>
+			<artifactId>spring-security-cas-client
+			</artifactId>
+		</dependency>
+        <!-- end security -->
+		<!--
+			webservice begin <dependency> <groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-core</artifactId> </dependency>
+		-->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+		</dependency>
+		
+		
+		<!-- utils begin-->
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>quartz</groupId>
+			<artifactId>quartz</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<!-- utils end -->
+		
+		
+		
+
+		<!-- testing begin -->
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymockclassextension</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+		<!-- testing end -->
+	</dependencies>
+</project>

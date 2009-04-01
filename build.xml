@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="graniteds-example" default="generate.as3" basedir=".">
+    <!--
+     ! Generate AS3 beans for entities.
+     !-->
+    <target name="define.gas3" unless="eclipse">
+        <!-- Define the task if we are not in an Eclipse environment (*all* gas3
+             jars must be in the classpath) -->
+        <echo message="Defining gas3 task..."/>
+        <taskdef name="gas3" classname="org.granite.generator.ant.AntJavaAs3Task"/>
+    </target>
+    <target name="generate.as3" depends="define.gas3"
+    	description="Generate AS3 beans for bmrbs entities">
+
+    	<gas3 outputdir="CLIENT/mrbs/src" tide="true">
+            <classpath>
+                <pathelement location="webapp/WEB-INF/classes" />
+            </classpath>
+            <fileset dir="webapp/WEB-INF/classes">
+				<include name="com/baidu/ite/mrbs/entity/**/*.class" />
+			</fileset>
+        </gas3>
+    </target>
+
+</project>
