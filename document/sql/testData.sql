@@ -1,6 +1,5 @@
 USE bmrbs;
 set names 'utf8';
---对数据库中的外键加上索引，增强关联查询时候的效率
 create index INDEX_ROMM_AREAID on mrbs_room (area_id);
 create index INDEX_SCHEDULE_ROOMID on MRBS_SCHEDULE(room_id);
 

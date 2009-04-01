@@ -13,7 +13,7 @@ create table mrbs_area
    id                   int(11) not null auto_increment comment '主键',
    area_name            varchar(30) default '' comment '名称',
    linkman              varchar(255) comment '管理员联系方式',
-   descn                text default ' ',
+   descn                text,
    shortdescn           text,
    primary key (id)
 )
