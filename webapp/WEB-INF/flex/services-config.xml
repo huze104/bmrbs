@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services-config>
+	<services>
+		<service id="granite-service" class="flex.messaging.services.RemotingService"
+			messageTypes="flex.messaging.messages.RemotingMessage">
+			<destination id="login">
+				<properties>
+					<source>loginService</source>
+					<factory>springFactory</factory>
+				</properties>
+				<channels>
+					<channel ref="my-graniteamf" />
+				</channels>
+			</destination>
+			<destination id="mrbsArea">
+				<channels>
+					<channel ref="my-graniteamf" />
+				</channels>
+				<properties>
+					<factory>springFactory</factory>
+					<source>mrbsAreaManager</source>
+				</properties>
+				<security>
+					<security-constraint>
+						<auth-method>Custom</auth-method>
+					</security-constraint>
+				</security>
+			</destination>
+			<destination id="mrbsRepeat">
+				<channels>
+					<channel ref="my-graniteamf" />
+				</channels>
+				<properties>
+					<factory>springFactory</factory>
+					<source>mrbsRepeatManager</source>
+				</properties>
+				<security>
+					<security-constraint>
+						<auth-method>Custom</auth-method>
+					</security-constraint>
+				</security>
+			</destination>
+			<destination id="mrbsRoom">
+				<channels>
+					<channel ref="my-graniteamf" />
+				</channels>
+				<properties>
+					<factory>springFactory</factory>
+					<source>mrbsRoomManager</source>
+				</properties>
+				<security>
+					<security-constraint>
+						<auth-method>Custom</auth-method>
+					</security-constraint>
+				</security>
+			</destination>
+			<destination id="mrbsSchedule">
+				<channels>
+					<channel ref="my-graniteamf" />
+				</channels>
+				<properties>
+					<factory>springFactory</factory>
+					<source>mrbsScheduleManager</source>
+				</properties>
+			</destination>
+			<destination id="mrbsUser">
+				<channels>
+					<channel ref="my-graniteamf" />
+				</channels>
+				<properties>
+					<factory>springFactory</factory>
+					<source>mrbsUserManager</source>
+				</properties>
+			</destination>
+		</service>
+	</services>
+
+    <!--
+     ! Declare springFactory service factory.
+     !-->
+	<factories>
+		<factory id="springFactory" class="org.granite.spring.SpringServiceFactory" />
+	</factories>
+
+    <!--
+     ! Declare my-graniteamf channel.
+     !-->
+	<channels>
+		<channel-definition id="my-graniteamf"
+			class="mx.messaging.channels.AMFChannel">
+			<endpoint
+				uri="http://{server.name}:{server.port}/{context.root}/graniteamf/amf"
+				class="flex.messaging.endpoints.AMFEndpoint" />
+		</channel-definition>
+	</channels>
+</services-config>

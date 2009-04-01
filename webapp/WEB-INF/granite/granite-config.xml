@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE granite-config PUBLIC "-//Granite Data Services//DTD granite-config internal//EN"
+    "http://www.graniteds.org/public/dtd/2.0.0/granite-config.dtd">
+<granite-config>
+	<!--
+		! Used to get persistent class from HibernateProxy.
+		!-->
+	<classgetter type="org.granite.hibernate.HibernateClassGetter" />
+	<externalizers>
+	    <!-- resovle org.hibernate.HibernateException: could not reassociate uninitialized transient collection when you update a entity 
+	    <configuration>
+			<hibernatecollectionmetadata>lazy</hibernatecollectionmetadata>
+		</configuration>
+		-->
+		<!--default-->
+		<externalizer
+			type="org.granite.messaging.amf.io.util.externalizer.DefaultExternalizer">
+			<include type="com.baidu.ite.mrbs.entity.util.RoomSearchBean" />
+		</externalizer>
+		<!--
+			! Use HibernateExternalizer to externalize all instances of classes
+			annotated ! with @Entity or @MappedSuperclass, and
+			DefaultExternalizer for those ! annotated with @Embeddable. !
+		-->
+		<externalizer type="org.granite.hibernate.HibernateExternalizer">
+			<include type="com.baidu.ite.mrbs.entity.MrbsArea" />
+			<include type="com.baidu.ite.mrbs.entity.MrbsRepeat" />
+			<include type="com.baidu.ite.mrbs.entity.MrbsRoom" />
+			<include type="com.baidu.ite.mrbs.entity.MrbsSchedule" />
+			<include type="com.baidu.ite.mrbs.entity.MrbsUser" />
+			<include type="com.baidu.ite.mrbs.entity.Authority" />
+			<include type="com.baidu.ite.mrbs.entity.Pod" />
+			<include type="com.baidu.ite.mrbs.entity.Role" />
+		</externalizer>
+		
+	</externalizers>
+	<security
+		type="com.baidu.ite.mrbs.service.security.SpringSecurityServiceMine" />
+</granite-config>
