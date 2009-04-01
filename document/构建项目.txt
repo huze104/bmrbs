@@ -1,0 +1,17 @@
+1.maven说明
+  java端的代码依赖于springside3架构，故而需要springside3已经存在你本地的资源库中了，如果没有，请登陆springside官方网站构建。
+2.目录说明
+  项目遵循springside目录，因为基础项目就是用springside的生成工具生成的，唯一多出来的目录是CLient这个目录。该目录下放置了flex项目作为展示端
+3.与springside中mini-web的不同
+  由于项目中不适用struts2，故而相关struts2和权限的部分均被剔除
+4.关于flex项目配置
+  目前我还没有将flex项目也使用maven管理起来，故而该项目就是一个普通的flex项目，在开发过程中，import就可以了。
+  需要改变的配置文件是：
+  CLIENT\mrbs\.actionScriptProperties
+  将当中的E:/work/iit/mrbs/修改成为{bmrbs_home}/CLIENT\mrbs
+  后续这个会使用相对路径
+
+5.构建jdbc14.jar到maven仓库
+  mvn deploy:deploy-file -DgroupId=com.oracle -DartifactId=ojdbc14  -Dversion=10.2.0.3.0 -Dpackaging=jar -Dfile=ojdbc14.jar  -Durl=http://localhost:8081/nexus/content/groups/public  -DrepositoryId=public
+
+
