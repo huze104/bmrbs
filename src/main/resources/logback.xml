@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<Encoding>GBK</Encoding>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date [%thread] %-5level %logger{50} - %msg%n</pattern>
+		</layout>
+	</appender>
+
+	<appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>/u01/BIT/tomcat/logs/bmrbs.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>bmrbs.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<!-- keep 30 days worth of history -->  
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date [%thread] %-5level %logger{50} - %msg%n</pattern>
+		</layout>
+	</appender>
+	
+	<appender name="MrbsRepeatManager" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>/u01/BIT/tomcat/logs/bmrbs_repeat.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>bmrbs_repeat.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<!-- keep 30 days worth of history -->  
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date [%thread] %-5level %logger{50} - %msg%n</pattern>
+		</layout>
+	</appender>
+	
+	<logger name="com.baidu.ite.mrbs.service.MrbsRepeatManager" level="INFO">
+		<appender-ref ref="MrbsRepeatManager"></appender-ref>
+	</logger>
+	<logger name="com.baidu.ite.mrbs.service.MrbsAreaManager" level="INFO">
+		<appender-ref ref="MrbsRepeatManager"></appender-ref>
+	</logger>
+	
+	<logger name="com.baidu">
+		<level value="debug" />
+	</logger>
+
+	<logger name="org.springframework">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.granite">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.jasig.cas.client">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.springframework.security">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.hibernate">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.hibernate.SQL">
+		<level value="WARN" />
+	</logger>
+		<logger name="org.hibernate.cache">
+		<level value="WARN" />
+	</logger>
+	
+	<logger name="com.opensymphony.xwork2">
+		<level value="WARN" />
+	</logger>
+
+
+	<root>
+		<level value="WARN" />
+		<appender-ref ref="stdout" />
+		<appender-ref ref="logfile" />
+	</root>
+</configuration>
+
