@@ -1,0 +1,724 @@
+/*
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Orange Theme by Bhavin Padhiyar.
+//
+///////////////////////////////////////////////////////////////////////////////
+*/
+
+
+/*
+//------------------------------
+//  AccordionHeader
+//------------------------------
+*/
+
+AccordionHeader
+{
+
+	disabledSkin: Embed(source="images/orange/AccordionHeader_disabledSkin.png",
+		scaleGridLeft="1", scaleGridTop="1", scaleGridRight="151", scaleGridBottom="21");
+	downSkin: Embed(source="images/orange/AccordionHeader_downSkin.png",
+		scaleGridLeft="1", scaleGridTop="1", scaleGridRight="151", scaleGridBottom="21");
+	overSkin: Embed(source="images/orange/AccordionHeader_overSkin.png",
+		scaleGridLeft="1", scaleGridTop="1", scaleGridRight="151", scaleGridBottom="21");
+	selectedDisabledSkin: Embed(source="images/orange/AccordionHeader_disabledSkin.png",
+		scaleGridLeft="1", scaleGridTop="1", scaleGridRight="151", scaleGridBottom="21");
+	selectedDownSkin: Embed(source="images/orange/AccordionHeader_downSkin.png",
+		scaleGridLeft="1", scaleGridTop="1", scaleGridRight="151", scaleGridBottom="21");
+	selectedOverSkin: Embed(source="images/orange/AccordionHeader_overSkin.png",
+		scaleGridLeft="1", scaleGridTop="1", scaleGridRight="151", scaleGridBottom="21");
+	selectedUpSkin: Embed(source="images/orange/AccordionHeader_selectedSkin.png",
+		scaleGridLeft="1", scaleGridTop="1", scaleGridRight="151", scaleGridBottom="21");
+	upSkin: Embed(source="images/orange/AccordionHeader_upSkin.png",
+		scaleGridLeft="1", scaleGridTop="1", scaleGridRight="151", scaleGridBottom="21");
+	borderColor:#5e5e5e;
+	borderStyle:'solid';
+}
+
+/*
+//------------------------------
+//  Application
+//------------------------------
+*/
+
+Application
+{
+	backgroundImage: Embed(source="images/orange/BackgroundImage.jpg");
+	themeColor:#de8800;
+}
+
+/*
+//------------------------------
+//  Button
+//------------------------------
+*/
+
+Button
+{
+	disabledSkin: Embed(source="images/orange/Button_disabledSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="60", scaleGridBottom="18");
+	downSkin: Embed(source="images/orange/Button_downSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="60", scaleGridBottom="18");
+	overSkin: Embed(source="images/orange/Button_overSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="60", scaleGridBottom="18");
+	upSkin: Embed(source="images/orange/Button_upSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="60", scaleGridBottom="18");
+}
+
+/* 
+//------------------------------ 
+//  ButtonBar 
+//------------------------------ 
+*/ 
+
+ButtonBar 
+{ 
+        buttonStyleName: "buttonBarButton"; 
+        firstButtonStyleName: "firstButtonBarButton"; 
+        lastButtonStyleName: "lastButtonBarButton"; 
+}
+
+ToggleButtonBar 
+{ 
+        buttonStyleName: "buttonBarButton"; 
+        firstButtonStyleName: "firstButtonBarButton"; 
+        lastButtonStyleName: "lastButtonBarButton"; 
+}
+
+/*
+//------------------------------ 
+//  ButtonBarButtons 
+//------------------------------ 
+*/ 
+
+.firstButtonBarButton 
+{ 
+    disabledSkin: Embed(source="images/orange/ButtonBar_firstDisabledSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="42", scaleGridBottom="18"); 
+    downSkin: Embed(source="images/orange/ButtonBar_firstDownSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="42", scaleGridBottom="18"); 
+    overSkin: Embed(source="images/orange/ButtonBar_firstOverSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="42", scaleGridBottom="18"); 
+    selectedDisabledSkin: Embed(source="images/orange/ButtonBar_firstSelectedDisabledSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="42", scaleGridBottom="18"); 
+    selectedDownSkin: Embed(source="images/orange/ButtonBar_firstSelectedUpSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="42", scaleGridBottom="18"); 
+    selectedOverSkin: Embed(source="images/orange/ButtonBar_firstSelectedUpSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="42", scaleGridBottom="18"); 
+    selectedUpSkin: Embed(source="images/orange/ButtonBar_firstSelectedUpSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="42", scaleGridBottom="18"); 
+    upSkin: Embed(source="images/orange/ButtonBar_firstUpSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="42", scaleGridBottom="18"); 
+}
+
+.buttonBarButton 
+{ 
+    disabledSkin: Embed(source="images/orange/ButtonBar_buttonDisabledSkin.png",
+		scaleGridLeft="2", scaleGridTop="4", scaleGridRight="42", scaleGridBottom="18"); 
+    downSkin: Embed(source="images/orange/ButtonBar_buttonDownSkin.png",
+		scaleGridLeft="2", scaleGridTop="4", scaleGridRight="42", scaleGridBottom="18"); 
+    overSkin: Embed(source="images/orange/ButtonBar_buttonOverSkin.png",
+		scaleGridLeft="2", scaleGridTop="4", scaleGridRight="42", scaleGridBottom="18"); 
+    selectedDisabledSkin: Embed(source="images/orange/ButtonBar_buttonSelectedDisabledSkin.png",
+		scaleGridLeft="2", scaleGridTop="4", scaleGridRight="42", scaleGridBottom="18"); 
+    selectedDownSkin: Embed(source="images/orange/ButtonBar_buttonSelectedUpSkin.png",
+		scaleGridLeft="2", scaleGridTop="4", scaleGridRight="42", scaleGridBottom="18"); 
+    selectedOverSkin: Embed(source="images/orange/ButtonBar_buttonSelectedUpSkin.png",
+		scaleGridLeft="2", scaleGridTop="4", scaleGridRight="42", scaleGridBottom="18"); 
+    selectedUpSkin: Embed(source="images/orange/ButtonBar_buttonSelectedUpSkin.png",
+		scaleGridLeft="2", scaleGridTop="4", scaleGridRight="42", scaleGridBottom="18"); 
+    upSkin: Embed(source="images/orange/ButtonBar_buttonUpSkin.png",
+		scaleGridLeft="2", scaleGridTop="4", scaleGridRight="42", scaleGridBottom="18"); 
+}
+
+.lastButtonBarButton 
+{ 
+    disabledSkin: Embed(source="images/orange/ButtonBar_lastDisabledSkin.png",
+		scaleGridLeft="2", scaleGridTop="4", scaleGridRight="38", scaleGridBottom="18"); 
+    downSkin: Embed(source="images/orange/ButtonBar_lastDownSkin.png",
+		scaleGridLeft="2", scaleGridTop="4", scaleGridRight="38", scaleGridBottom="18"); 
+    overSkin: Embed(source="images/orange/ButtonBar_lastOverSkin.png",
+		scaleGridLeft="2", scaleGridTop="4", scaleGridRight="38", scaleGridBottom="18"); 
+    selectedDisabledSkin: Embed(source="images/orange/ButtonBar_lastSelectedDisabledSkin.png",
+		scaleGridLeft="2", scaleGridTop="4", scaleGridRight="38", scaleGridBottom="18"); 
+    selectedDownSkin: Embed(source="images/orange/ButtonBar_lastSelectedUpSkin.png",
+		scaleGridLeft="2", scaleGridTop="4", scaleGridRight="38", scaleGridBottom="18"); 
+    selectedOverSkin: Embed(source="images/orange/ButtonBar_lastSelectedUpSkin.png",
+		scaleGridLeft="2", scaleGridTop="4", scaleGridRight="38", scaleGridBottom="18"); 
+    selectedUpSkin: Embed(source="images/orange/ButtonBar_lastSelectedUpSkin.png",
+		scaleGridLeft="2", scaleGridTop="4", scaleGridRight="38", scaleGridBottom="18"); 
+    upSkin: Embed(source="images/orange/ButtonBar_lastUpSkin.png",
+		scaleGridLeft="2", scaleGridTop="4", scaleGridRight="38", scaleGridBottom="18"); 
+}
+
+/*
+//------------------------------
+//  CheckBox
+//------------------------------
+*/
+CheckBox
+{
+	disabledIcon: Embed(source="images/orange/CheckBox_disabledIcon.png");
+	downIcon: Embed(source="images/orange/CheckBox_downIcon.png");
+	overIcon: Embed(source="images/orange/CheckBox_overIcon.png");
+	selectedDisabledIcon: Embed(source="images/orange/CheckBox_selectedDisabledIcon.png");
+	selectedDownIcon: Embed(source="images/orange/CheckBox_selectedDownIcon.png");
+	selectedOverIcon: Embed(source="images/orange/CheckBox_selectedOverIcon.png");
+	selectedUpIcon: Embed(source="images/orange/CheckBox_selectedUpIcon.png");
+	upIcon: Embed(source="images/orange/CheckBox_upIcon.png");
+}		
+
+/*
+//------------------------------
+//  ColorPicker
+//------------------------------
+*/
+
+ColorPicker
+{
+	disabledSkin: Embed(source="images/orange/ColorPicker_disabledSkin.png",
+		scaleGridLeft="3", scaleGridTop="3", scaleGridRight="14", scaleGridBottom="16");
+	downSkin: Embed(source="images/orange/ColorPicker_downSkin.png",
+		scaleGridLeft="3", scaleGridTop="3", scaleGridRight="14", scaleGridBottom="16");
+	overSkin: Embed(source="images/orange/ColorPicker_overSkin.png",
+		scaleGridLeft="3", scaleGridTop="3", scaleGridRight="14", scaleGridBottom="16");
+	upSkin: Embed(source="images/orange/ColorPicker_upSkin.png",
+		scaleGridLeft="3", scaleGridTop="3", scaleGridRight="14", scaleGridBottom="16");
+}		
+
+/*
+//------------------------------
+//  ComboBox
+//------------------------------
+*/
+
+ComboBox
+{
+
+	disabledSkin: Embed(source="images/orange/ComboBoxArrow_disabledSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="64", scaleGridBottom="18"); 
+	downSkin: Embed(source="images/orange/ComboBoxArrow_downSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="64", scaleGridBottom="18"); 
+	editableDisabledSkin: Embed(source="images/orange/ComboBoxArrow_editableDisabledSkin.png",
+		scaleGridLeft="0", scaleGridTop="0", scaleGridRight="17", scaleGridBottom="22");
+	editableDownSkin: Embed(source="images/orange/ComboBoxArrow_editableDownSkin.png",
+		scaleGridLeft="0", scaleGridTop="0", scaleGridRight="17", scaleGridBottom="22");
+	editableOverSkin: Embed(source="images/orange/ComboBoxArrow_editableOverSkin.png",
+		scaleGridLeft="0", scaleGridTop="0", scaleGridRight="17", scaleGridBottom="22");
+	editableUpSkin: Embed(source="images/orange/ComboBoxArrow_editableUpSkin.png",
+		scaleGridLeft="0", scaleGridTop="0", scaleGridRight="17", scaleGridBottom="22");
+	overSkin: Embed(source="images/orange/ComboBoxArrow_overSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="64", scaleGridBottom="18"); 
+	upSkin: Embed(source="images/orange/ComboBoxArrow_upSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="64", scaleGridBottom="18"); 
+}		
+
+
+/*
+//------------------------------
+//  CursorManager
+//------------------------------
+*/
+
+CursorManager
+{
+	busyCursor: Embed(source="images/orange/BusyCursor.png");
+	busyCursorBackground: Embed(source="images/orange/BusyCursor.png");
+}
+
+/*
+//------------------------------
+//  DataGrid
+//------------------------------
+*/
+DataGrid
+{
+
+	columnDropIndicatorSkin: Embed(source="images/orange/DataGrid_columnDropIndicatorSkin.png");
+	columnResizeSkin: Embed(source="images/orange/DataGrid_columnResizeSkin.png");
+	headerSeparatorSkin: Embed(source="images/orange/DataGrid_headerSeparatorSkin.png");
+	sortArrowSkin: Embed(source="images/orange/DataGrid_sortArrowSkin.png");
+	stretchCursor: Embed(source="images/orange/DataGrid_stretchCursor.png");
+	rollOverColor:#f1c176;
+	selectionColor:#cf902b;
+	themeColor:#cf902b;
+}
+
+/*
+//------------------------------
+//  DateChooser
+//------------------------------
+*/
+
+DateChooser
+{
+	nextMonthDisabledSkin: Embed(source="images/orange/DateChooser_nextMonthDisabledSkin.png");
+	nextMonthDownSkin: Embed(source="images/orange/DateChooser_nextMonthDownSkin.png");
+	nextMonthOverSkin: Embed(source="images/orange/DateChooser_nextMonthOverSkin.png");
+	nextMonthUpSkin: Embed(source="images/orange/DateChooser_nextMonthUpSkin.png");
+	prevMonthDisabledSkin: Embed(source="images/orange/DateChooser_prevMonthDisabledSkin.png");
+	prevMonthDownSkin: Embed(source="images/orange/DateChooser_prevMonthDownSkin.png");
+	prevMonthOverSkin: Embed(source="images/orange/DateChooser_prevMonthOverSkin.png");
+	prevMonthUpSkin: Embed(source="images/orange/DateChooser_prevMonthUpSkin.png");
+	
+	nextYearDisabledSkin: Embed(source="images/orange/DateChooser_nextYearDisabledSkin.png");
+	nextYearDownSkin: Embed(source="images/orange/DateChooser_nextYearDownSkin.png");
+	nextYearOverSkin: Embed(source="images/orange/DateChooser_nextYearOverSkin.png");
+	nextYearUpSkin: Embed(source="images/orange/DateChooser_nextYearUpSkin.png");
+	prevYearDisabledSkin: Embed(source="images/orange/DateChooser_prevYearDisabledSkin.png");
+	prevYearDownSkin: Embed(source="images/orange/DateChooser_prevYearDownSkin.png");
+	prevYearOverSkin: Embed(source="images/orange/DateChooser_prevYearOverSkin.png");
+	prevYearUpSkin: Embed(source="images/orange/DateChooser_prevYearUpSkin.png");
+
+	todayIndicatorSkin: Embed(source="images/orange/DateChooser_todayIndicatorSkin.png");	
+	
+	rollOverIndicatorSkin: Embed(source="images/orange/DateChooser_rollOverIndicatorSkin.png");
+	selectionIndicatorSkin: Embed(source="images/orange/DateChooser_selectionIndicatorSkin.png");
+	
+}
+
+/*
+//------------------------------
+//  DateField
+//------------------------------
+*/
+
+DateField
+{
+	disabledSkin: Embed(source="images/orange/DateField_disabledSkin.png"); 
+	downSkin: Embed(source="images/orange/DateField_downSkin.png"); 
+	overSkin: Embed(source="images/orange/DateField_overSkin.png"); 
+	upSkin: Embed(source="images/orange/DateField_upSkin.png"); 
+}
+
+/*
+//------------------------------
+//  DividedBox
+//------------------------------
+*/
+DividedBox
+{
+	dividerSkin: Embed(source="images/orange/DividedBox_dividerSkin.png");
+	horizontalCursor: Embed(source="images/orange/DividedBox_horizontalCursor.png");
+	verticalCursor: Embed(source="images/orange/DividedBox_verticalCursor.png");
+}
+
+/*
+//------------------------------
+//  DragManager
+//------------------------------
+*/
+DragManager
+{
+	copyCursor: Embed(source="images/orange/DragManager_copyCursor.png");
+
+	defaultDragImageSkin: Embed(source="images/orange/DragManager_defaultDragImageSkin.png",
+		scaleGridLeft="1", scaleGridTop="1", scaleGridRight="19", scaleGridBottom="19");
+
+	linkCursor: Embed(source="images/orange/DragManager_linkCursor.png");
+	moveCursor: Embed(source="images/orange/DragManager_moveCursor.png");
+	rejectCursor: Embed(source="images/orange/DragManager_rejectCursor.png");
+}
+
+/*
+//------------------------------
+//  FormItem
+//------------------------------
+*/
+FormItem
+{
+	indicatorSkin: Embed(source="images/orange/FormItem_indicatorSkin.png");  
+}
+
+/*
+//------------------------------
+//  Image
+//------------------------------
+*/
+
+Image
+{
+
+	brokenImageSkin: Embed(source="images/orange/Loader_brokenImageSkin.png");
+
+}
+
+/*
+//------------------------------
+//  LinkButton
+//------------------------------
+*/
+
+LinkButton
+{
+	disabledSkin: Embed(source="images/orange/LinkButton_disabledSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="61", scaleGridBottom="18");
+	downSkin: Embed(source="images/orange/LinkButton_downSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="61", scaleGridBottom="18");
+	overSkin: Embed(source="images/orange/LinkButton_overSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="61", scaleGridBottom="18");
+	upSkin: Embed(source="images/orange/LinkButton_upSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="61", scaleGridBottom="18");
+}
+
+/*
+//------------------------------
+//  Loader
+//------------------------------
+*/
+
+Loader
+{
+
+	brokenImageSkin: Embed(source="images/orange/Loader_brokenImageSkin.png");
+
+}
+
+/*
+//------------------------------
+//  Menu
+//------------------------------
+*/
+Menu
+{
+	branchIcon: Embed(source="images/orange/Menu_branchIcon.png");
+	branchDisabledIcon: Embed(source="images/orange/Menu_branchDisabledIcon.png");
+	checkIcon: Embed(source="images/orange/Menu_checkIcon.png");
+	checkDisabledIcon: Embed(source="images/orange/Menu_checkDisabledIcon.png");
+	radioIcon: Embed(source="images/orange/Menu_radioIcon.png");
+	radioDisabledIcon: Embed(source="images/orange/Menu_radioDisabledIcon.png");
+	separatorSkin: Embed(source="images/orange/Menu_separatorSkin.png");
+}
+
+/*
+//------------------------------
+//  MenuBar
+//------------------------------
+*/
+
+MenuBar
+{
+
+	backgroundSkin: Embed(source="images/orange/MenuBar_backgroundSkin.png",
+	scaleGridLeft="1", scaleGridTop="1", scaleGridRight="99", scaleGridBottom="19");
+	itemUpSkin: Embed(source="images/orange/MenuBar_itemUpSkin.png");
+	itemOverSkin: Embed(source="images/orange/MenuBar_itemOverSkin.png");
+	itemDownSkin: Embed(source="images/orange/MenuBar_itemDownSkin.png");
+	rollOverColor:#f1c176;
+	selectionColor:#cf902b
+}
+List
+{
+	rollOverColor:#f1c176;
+	selectionColor:#cf902b;	
+	text-align:left;
+}
+Tree
+{
+	rollOverColor:#f1c176;
+	selectionColor:#cf902b;	
+}
+
+/*
+//------------------------------
+//  NumericStepper
+//------------------------------
+*/
+
+NumericStepper
+{
+
+	downArrowDisabledSkin: Embed(source="images/orange/NumericStepperDownArrow_DisabledSkin.png");
+	downArrowDownSkin: Embed(source="images/orange/NumericStepperDownArrow_DownSkin.png");
+	downArrowOverSkin: Embed(source="images/orange/NumericStepperDownArrow_OverSkin.png");
+	downArrowUpSkin: Embed(source="images/orange/NumericStepperDownArrow_UpSkin.png");
+	upArrowDisabledSkin :Embed(source="images/orange/NumericStepperUpArrow_DisabledSkin.png");
+	upArrowDownSkin: Embed(source="images/orange/NumericStepperUpArrow_DownSkin.png");
+	upArrowOverSkin: Embed(source="images/orange/NumericStepperUpArrow_OverSkin.png");
+	upArrowUpSkin: Embed(source="images/orange/NumericStepperUpArrow_UpSkin.png");
+}
+
+
+/*
+//------------------------------
+//  Panel
+//------------------------------
+*/
+
+Panel
+{
+
+	closeButtonDisabledSkin: Embed(source="images/orange/Panel_closeButtonDisabledSkin.png");
+	closeButtonDownSkin: Embed(source="images/orange/Panel_closeButtonDownSkin.png");
+	closeButtonOverSkin: Embed(source="images/orange/Panel_closeButtonOverSkin.png");
+	closeButtonUpSkin: Embed(source="images/orange/Panel_closeButtonUpSkin.png");
+	borderSkin: Embed(source="images/orange/Panel_borderSkin.png",
+		scaleGridLeft="12", scaleGridTop="31", scaleGridRight="265", scaleGridBottom="189");
+		
+	titleBackgroundSkin: Embed(source="images/orange/empty.swf", symbol="Panel_titleBackgroundSkin");
+	borderThicknessLeft: 12;
+	borderThicknessRight: 11;
+	borderThicknessTop: 0;
+	borderThicknessBottom: 5;
+	headerHeight: 31;
+}
+
+/**
+*Alert style
+*/
+Alert{
+    borderStyle:solid;
+    borderColor:#333333;
+    background-color:#ffffff;
+    borderAlpha:0;
+    borderThickness:1;
+    roundedBottomCorners:true;
+    cornerRadius:2;
+    headerHeight:15;
+    backgroundAlpha:0.9;
+    highlightAlphas:0.46, 0.19;
+    headerColors:#ffffff, #ffffff;
+    titleStyleName:"alertTitle";
+    message-style-name:"messageStyle";
+    button-style-name:"AlertButtons";
+    borderSkin: Embed(source="images/orange/Panel_borderSkin.png",
+		scaleGridLeft="12", scaleGridTop="2", scaleGridRight="265", scaleGridBottom="189");
+}
+
+.alertTitle
+{
+    fontFamily:Arial;
+    fontSize:11;
+    color:#333333;
+    font-weight:bold;
+}
+
+.messageStyle
+{
+    letterSpacing:0;
+    color:#333333;
+    textAlign:left;
+    fontFamily:Arial;
+    fontSize:13;
+    font-weight:normal;
+
+}
+
+.AlertButtons{
+    cornerRadius:4;
+    highlightAlphas:0.59, 0.5;
+    fillAlphas:1, 1, 1, 1;
+    fillColors:#040404, #4c4c4c, #c60303, #ff4300;
+    color:#ffffff;
+    textRollOverColor:#ffffff;
+    borderColor:#474747;
+    themeColor:#333333;
+    fontFamily:Arial;
+    fontSize:11; fontWeight:bold;
+
+} 
+
+/*
+//------------------------------
+//  Panel ControlBar
+//------------------------------
+*/
+/*
+ControlBar
+{
+	borderSkin: Embed(source="images/orange/Panel_controlBarBackgroundSkin.png",
+		scaleGridLeft="3", scaleGridTop="1", scaleGridRight="273", scaleGridBottom="17");
+}
+*/
+/*
+//------------------------------
+//  PopUpButton
+//------------------------------
+*/
+
+PopUpButton
+{
+
+	disabledSkin: Embed(source="images/orange/PopUpButton_DisabledSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="64", scaleGridBottom="17");
+	downSkin: Embed(source="images/orange/PopUpButton_downLeftSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="64", scaleGridBottom="17");
+	overSkin: Embed(source="images/orange/PopUpButton_overLeftSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="64", scaleGridBottom="17");
+	popUpDownSkin: Embed(source="images/orange/PopUpButton_downRightSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="64", scaleGridBottom="17");
+	popUpOverSkin: Embed(source="images/orange/PopUpButton_overRightSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="64", scaleGridBottom="17");
+	upSkin: Embed(source="images/orange/PopUpButton_upSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="64", scaleGridBottom="17");
+}
+
+
+/*
+//------------------------------
+//  ProgressBar
+//------------------------------
+*/
+
+ProgressBar
+{
+
+	barSkin: Embed(source="images/orange/ProgressBarSkin.png",
+		scaleGridLeft="1", scaleGridTop="0", scaleGridRight="52", scaleGridBottom="3");
+	indeterminateSkin: Embed(source="images/orange/ProgressIndeterminateSkin.png");
+	trackSkin: Embed(source="images/orange/ProgressTrackSkin.png",
+		scaleGridLeft="1", scaleGridTop="0", scaleGridRight="149", scaleGridBottom="3");
+
+}
+
+/*
+//------------------------------
+//  RadioButton
+//------------------------------
+*/
+
+RadioButton
+{
+
+	disabledIcon: Embed(source="images/orange/RadioButton_disabledIcon.png");
+	downIcon: Embed(source="images/orange/RadioButton_downIcon.png");
+	overIcon: Embed(source="images/orange/RadioButton_overIcon.png");
+	selectedDisabledIcon: Embed(source="images/orange/RadioButtonSelected_disabledIcon.png");
+	selectedDownIcon: Embed(source="images/orange/RadioButtonSelected_downIcon.png");
+	selectedOverIcon: Embed(source="images/orange/RadioButtonSelected_overIcon.png");
+	selectedUpIcon: Embed(source="images/orange/RadioButtonSelected_upIcon.png");
+	upIcon: Embed(source="images/orange/RadioButton_upIcon.png");
+
+}
+
+/*
+//------------------------------
+//  ScrollBar
+//------------------------------
+*/
+
+ScrollBar
+{
+
+	downArrowDisabledSkin: Embed(source="images/orange/ScrollArrowDown_disabledSkin.png");
+	downArrowDownSkin: Embed(source="images/orange/ScrollArrowDown_downSkin.png");
+	downArrowOverSkin: Embed(source="images/orange/ScrollArrowDown_overSkin.png");
+	downArrowUpSkin: Embed(source="images/orange/ScrollArrowDown_upSkin.png");
+	thumbDownSkin: Embed(source="images/orange/ScrollThumb_downSkin.png",
+		scaleGridLeft="1", scaleGridTop="5", scaleGridRight="8", scaleGridBottom="48");
+	thumbIcon: Embed(source="images/orange/ScrollBar_thumbIcon.png");
+	thumbOverSkin: Embed(source="images/orange/ScrollThumb_overSkin.png",
+		scaleGridLeft="1", scaleGridTop="5", scaleGridRight="8", scaleGridBottom="48");
+	thumbUpSkin: Embed(source="images/orange/ScrollThumb_upSkin.png",
+		scaleGridLeft="1", scaleGridTop="5", scaleGridRight="8", scaleGridBottom="48");
+	trackSkin: Embed(source="images/orange/ScrollTrack_Skin.png");
+	upArrowDisabledSkin: Embed(source="images/orange/ScrollArrowUp_disabledSkin.png");
+	upArrowDownSkin: Embed(source="images/orange/ScrollArrowUp_downSkin.png");
+	upArrowOverSkin: Embed(source="images/orange/ScrollArrowUp_overSkin.png");
+	upArrowUpSkin: Embed(source="images/orange/ScrollArrowUp_upSkin.png");
+
+}
+
+/*
+//------------------------------
+//  Slider
+//------------------------------
+*/
+
+Slider
+{
+	thumbDisabledSkin: Embed(source="images/orange/SliderThumb_disabledSkin.png");
+	thumbDownSkin: Embed(source="images/orange/SliderThumb_downSkin.png");
+	thumbOverSkin: Embed(source="images/orange/SliderThumb_overSkin.png");
+	thumbUpSkin: Embed(source="images/orange/SliderThumb_upSkin.png");
+	trackHighlightSkin: Embed(source="images/orange/SliderHighlight_Skin.png",
+		scaleGridLeft="1", scaleGridTop="0", scaleGridRight="46", scaleGridBottom="3");
+	trackSkin: Embed(source="images/orange/SliderTrack_Skin.png",
+		scaleGridLeft="2", scaleGridTop="0", scaleGridRight="77", scaleGridBottom="3");
+}
+
+HSlider
+{
+	thumbDisabledSkin: Embed(source="images/orange/SliderThumb_disabledSkin.png");
+	thumbDownSkin: Embed(source="images/orange/SliderThumb_downSkin.png");
+	thumbOverSkin: Embed(source="images/orange/SliderThumb_overSkin.png");
+	thumbUpSkin: Embed(source="images/orange/SliderThumb_upSkin.png");
+	trackHighlightSkin: Embed(source="images/orange/SliderHighlight_Skin.png",
+		scaleGridLeft="1", scaleGridTop="0", scaleGridRight="46", scaleGridBottom="3");
+	trackSkin: Embed(source="images/orange/SliderTrack_Skin.png",
+		scaleGridLeft="2", scaleGridTop="0", scaleGridRight="77", scaleGridBottom="3");
+}
+
+VSlider
+{
+	thumbDisabledSkin: Embed(source="images/orange/SliderThumb_disabledSkin.png");
+	thumbDownSkin: Embed(source="images/orange/SliderThumb_downSkin.png");
+	thumbOverSkin: Embed(source="images/orange/SliderThumb_overSkin.png");
+	thumbUpSkin: Embed(source="images/orange/SliderThumb_upSkin.png");
+	trackHighlightSkin: Embed(source="images/orange/SliderHighlight_Skin.png",
+		scaleGridLeft="1", scaleGridTop="0", scaleGridRight="46", scaleGridBottom="3");
+	trackSkin: Embed(source="images/orange/SliderTrack_Skin.png",
+		scaleGridLeft="2", scaleGridTop="0", scaleGridRight="77", scaleGridBottom="3");
+}
+
+
+/*
+//------------------------------
+//  Tab
+//------------------------------
+*/
+
+TabBar
+{
+	firstButtonStyleName: "tabStyle";
+	tabStyleName: "tabStyle";
+	lastButtonStyleName: "tabStyle";
+}
+
+.tabStyle {
+	disabledSkin: Embed(source="images/orange/Tab_disabledSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
+	downSkin: Embed(source="images/orange/Tab_downSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
+	overSkin: Embed(source="images/orange/Tab_overSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
+	selectedDisabledSkin: Embed(source="images/orange/TabSelected_disabledSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
+	selectedDownSkin: Embed(source="images/orange/TabSelected_upSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
+	selectedOverSkin: Embed(source="images/orange/TabSelected_upSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
+	selectedUpSkin: Embed(source="images/orange/TabSelected_upSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
+	upSkin: Embed(source="images/orange/Tab_upSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
+}
+
+/*
+//------------------------------
+//  ToolTip
+//------------------------------
+*/
+
+ToolTip
+{
+	borderSkin: Embed(source="images/orange/ToolTip_borderSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="78", scaleGridBottom="18");
+	fontSize:13;
+}
+
+/*
+//------------------------------
+//  Tree
+//------------------------------
+*/
+Tree
+{
+	defaultLeafIcon: Embed(source="images/orange/Tree_defaultLeafIcon.png");
+	disclosureClosedIcon: Embed(source="images/orange/Tree_disclosureClosedIcon.png");
+	disclosureOpenIcon: Embed(source="images/orange/Tree_disclosureOpenIcon.png");
+	folderClosedIcon: Embed(source="images/orange/Tree_folderClosedIcon.png");
+	folderOpenIcon: Embed(source="images/orange/Tree_folderOpenIcon.png");
+}
+
