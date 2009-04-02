@@ -5,6 +5,10 @@
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
 
 	<sec:http>
+	    <sec:form-login />
+	    <sec:anonymous />
+	    <sec:http-basic />
+	    <sec:logout />
 	</sec:http>
 	<bean id="accessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
 		<property name="allowIfAllAbstainDecisions" value="false"></property>
