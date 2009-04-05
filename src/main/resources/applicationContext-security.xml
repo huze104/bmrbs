@@ -10,6 +10,9 @@
 	    <sec:http-basic />
 	    <sec:logout />
 	</sec:http>
+	
+	<sec:authentication-provider
+		user-service-ref="userDetailServiceImpl"></sec:authentication-provider>
 	<bean id="accessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
 		<property name="allowIfAllAbstainDecisions" value="false"></property>
 		<property name="decisionVoters">
