@@ -6,9 +6,6 @@
 
 	<sec:http>
 	    <sec:form-login />
-	    <sec:anonymous />
-	    <sec:http-basic />
-	    <sec:logout />
 	</sec:http>
 	
 	<sec:authentication-provider
