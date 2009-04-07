@@ -21,7 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springside.modules.utils.CollectionUtils;
+import org.springside.modules.utils.ReflectionUtils;
 
 /**
  * 角色.
@@ -74,13 +74,13 @@ public class Role {
 
 	@Transient
 	public String getAuthNames() throws Exception {
-		return CollectionUtils.fetchElementPropertyToString(auths, "displayName", ", ");
+		return ReflectionUtils.fetchElementPropertyToString(auths, "displayName", ", ");
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transient
 	public List<Long> getAuthIds() throws Exception {
-		return CollectionUtils.fetchElementPropertyToList(auths, "id");
+		return ReflectionUtils.fetchElementPropertyToList(auths, "id");
 	}
 
 	@Override
