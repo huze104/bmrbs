@@ -18,7 +18,7 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springside.modules.orm.hibernate.SimpleHibernateTemplate;
+import org.springside.modules.orm.hibernate.HibernateDao;
 
 import com.baidu.ite.mrbs.entity.MrbsUser;
 
@@ -51,11 +51,11 @@ public class UserJobService {
 	protected final Logger logger = LoggerFactory
 			.getLogger(UserJobService.class);
 
-	private SimpleHibernateTemplate<MrbsUser, Long> userDao;
+	private HibernateDao<MrbsUser, Long> userDao;
 
 	@Autowired
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		userDao = new SimpleHibernateTemplate<MrbsUser, Long>(sessionFactory,
+		userDao = new HibernateDao<MrbsUser, Long>(sessionFactory,
 				MrbsUser.class);
 	}
 

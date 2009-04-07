@@ -20,7 +20,7 @@ import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.orm.hibernate.SimpleHibernateTemplate;
+import org.springside.modules.orm.hibernate.HibernateDao;
 
 import com.baidu.ite.mrbs.entity.MrbsArea;
 
@@ -56,7 +56,7 @@ public class MrbsAreaManager extends AbstractManager<MrbsArea, Long> {
 	 */
 	@Autowired
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		dao = new SimpleHibernateTemplate<MrbsArea, Long>(sessionFactory,
+		dao = new HibernateDao<MrbsArea, Long>(sessionFactory,
 				MrbsArea.class);
 	}
 
@@ -66,7 +66,7 @@ public class MrbsAreaManager extends AbstractManager<MrbsArea, Long> {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<MrbsArea> getAll() {
-		return dao.findAll();
+		return dao.getAll();
 	}
 
 	/**

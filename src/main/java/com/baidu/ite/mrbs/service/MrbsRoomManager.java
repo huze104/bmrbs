@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.orm.hibernate.SimpleHibernateTemplate;
+import org.springside.modules.orm.hibernate.HibernateDao;
 
 import com.baidu.ite.mrbs.entity.MrbsArea;
 import com.baidu.ite.mrbs.entity.MrbsRoom;
@@ -74,7 +74,7 @@ public class MrbsRoomManager extends AbstractManager<MrbsRoom, Long> {
 	 */
 	@Autowired
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		dao = new SimpleHibernateTemplate<MrbsRoom, Long>(sessionFactory,
+		dao = new HibernateDao<MrbsRoom, Long>(sessionFactory,
 				MrbsRoom.class);
 	}
 
@@ -82,7 +82,7 @@ public class MrbsRoomManager extends AbstractManager<MrbsRoom, Long> {
 	 * 获取所有的数据
 	 */
 	public List<MrbsRoom> getAll() {
-		return dao.findAll();
+		return dao.getAll();
 	}
 
 	/**

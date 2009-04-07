@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.orm.hibernate.Page;
-import org.springside.modules.orm.hibernate.SimpleHibernateTemplate;
+import org.springside.modules.orm.Page;
+import org.springside.modules.orm.hibernate.HibernateDao;
 
 /**
  * 
@@ -34,7 +34,7 @@ public abstract class AbstractManager<T, PK extends Serializable> {
 	/**
 	 * dao对象，用于单一实体类的增删改查等基本操作
 	 */
-	protected SimpleHibernateTemplate<T, PK> dao;
+	protected HibernateDao<T, PK> dao;
 
 	/**
 	 * 更新或者新增实体

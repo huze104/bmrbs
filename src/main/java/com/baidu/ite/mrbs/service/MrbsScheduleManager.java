@@ -16,7 +16,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.orm.hibernate.SimpleHibernateTemplate;
+import org.springside.modules.orm.hibernate.HibernateDao;
 
 import com.baidu.ite.mrbs.entity.MrbsSchedule;
 
@@ -54,7 +54,7 @@ public class MrbsScheduleManager extends AbstractManager<MrbsSchedule, Long> {
 	 */
 	@Autowired
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		dao = new SimpleHibernateTemplate<MrbsSchedule, Long>(sessionFactory,
+		dao = new HibernateDao<MrbsSchedule, Long>(sessionFactory,
 				MrbsSchedule.class);
 	}
 
@@ -62,7 +62,7 @@ public class MrbsScheduleManager extends AbstractManager<MrbsSchedule, Long> {
 	 * 获取所有的数据
 	 */
 	public List<MrbsSchedule> getAll() {
-		return dao.findAll();
+		return dao.getAll();
 	}
 
 	/**

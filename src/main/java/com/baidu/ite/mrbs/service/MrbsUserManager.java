@@ -16,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springside.modules.orm.hibernate.Page;
-import org.springside.modules.orm.hibernate.SimpleHibernateTemplate;
+import org.springside.modules.orm.Page;
+import org.springside.modules.orm.hibernate.HibernateDao;
 
 import com.baidu.ite.mrbs.entity.Authority;
 import com.baidu.ite.mrbs.entity.MrbsUser;
@@ -49,19 +49,19 @@ public class MrbsUserManager {
 
 	private static String AUTH_HQL = "select count(u) from User u where u.loginName=? and u.password=?";
 
-	private SimpleHibernateTemplate<MrbsUser, Long> userDao;
+	private HibernateDao<MrbsUser, Long> userDao;
 
-	private SimpleHibernateTemplate<Role, Long> roleDao;
+	private HibernateDao<Role, Long> roleDao;
 
-	private SimpleHibernateTemplate<Authority, Long> authDao;
+	private HibernateDao<Authority, Long> authDao;
 
 	@Autowired
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		userDao = new SimpleHibernateTemplate<MrbsUser, Long>(sessionFactory,
+		userDao = new HibernateDao<MrbsUser, Long>(sessionFactory,
 				MrbsUser.class);
-		roleDao = new SimpleHibernateTemplate<Role, Long>(sessionFactory,
+		roleDao = new HibernateDao<Role, Long>(sessionFactory,
 				Role.class);
-		authDao = new SimpleHibernateTemplate<Authority, Long>(sessionFactory,
+		authDao = new HibernateDao<Authority, Long>(sessionFactory,
 				Authority.class);
 	}
 
@@ -72,7 +72,7 @@ public class MrbsUserManager {
 
 	@Transactional(readOnly = true)
 	public Page<MrbsUser> getAllUsers(Page<MrbsUser> page) {
-		return userDao.findAll(page);
+		return userDao.getAll(page);
 	}
 
 	@Transactional(readOnly = true)
@@ -120,7 +120,7 @@ public class MrbsUserManager {
 
 	@Transactional(readOnly = true)
 	public List<Role> getAllRoles() {
-		return roleDao.findAll();
+		return roleDao.getAll();
 	}
 
 	@Transactional(readOnly = true)
@@ -141,7 +141,7 @@ public class MrbsUserManager {
 
 	@Transactional(readOnly = true)
 	public List<Authority> getAllAuths() {
-		return authDao.findAll();
+		return authDao.getAll();
 	}
 
 	@Transactional(readOnly = true)
