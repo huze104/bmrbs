@@ -18,7 +18,7 @@
 	
 	 <!-- 主要依赖库的版本定义属性 -->
 	<properties>
-		<ganiteds.version>2.0.0.B1</ganiteds.version>
+		<ganiteds.version>2.0.0.B2</ganiteds.version>
 	</properties>
 	<dependencies>
 		<!-- springside -->
