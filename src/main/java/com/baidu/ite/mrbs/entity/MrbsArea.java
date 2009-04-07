@@ -8,7 +8,6 @@
  */
 package com.baidu.ite.mrbs.entity;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
