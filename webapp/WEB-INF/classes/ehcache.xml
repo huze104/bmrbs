@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+	<diskStore path="java.io.tmpdir/bmrbs/hibernate" />
+	<defaultCache maxElementsInMemory="100000" eternal="true"
+		overflowToDisk="true" />
+</ehcache>
