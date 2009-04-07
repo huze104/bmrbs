@@ -1,7 +1,7 @@
 package com.baidu.ite.mrbs.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springside.modules.test.SpringTransactionalTestCase;
+import org.springside.modules.test.junit38.SpringTransactionalTestCase;
 
 import com.baidu.ite.mrbs.entity.MrbsArea;
 import com.baidu.ite.mrbs.entity.MrbsRoom;

@@ -9,7 +9,7 @@ import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springside.modules.test.SpringTransactionalTestCase;
+import org.springside.modules.test.junit38.SpringTransactionalTestCase;
 
 import com.baidu.ite.mrbs.entity.MrbsArea;
 import com.baidu.ite.mrbs.entity.MrbsRepeat;
