@@ -42,9 +42,6 @@
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="namingStrategy">
-			<bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
-		</property>
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
@@ -58,22 +55,14 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
-				<value>com.baidu.ite.mrbs.entity.MrbsArea
-				</value>
-				<value>com.baidu.ite.mrbs.entity.MrbsRepeat
-				</value>
-				<value>com.baidu.ite.mrbs.entity.MrbsRoom
-				</value>
-				<value>com.baidu.ite.mrbs.entity.MrbsSchedule
-				</value>
-				<value>com.baidu.ite.mrbs.entity.MrbsUser
-				</value>
-				<value>com.baidu.ite.mrbs.entity.Authority
-				</value>
-				<value>com.baidu.ite.mrbs.entity.Pod
-				</value>
-				<value>com.baidu.ite.mrbs.entity.Role
-				</value>
+				<value>com.baidu.ite.mrbs.entity.MrbsArea</value>
+				<value>com.baidu.ite.mrbs.entity.MrbsRepeat</value>
+				<value>com.baidu.ite.mrbs.entity.MrbsRoom</value>
+				<value>com.baidu.ite.mrbs.entity.MrbsSchedule</value>
+				<value>com.baidu.ite.mrbs.entity.MrbsUser</value>
+				<value>com.baidu.ite.mrbs.entity.Authority</value>
+				<value>com.baidu.ite.mrbs.entity.Pod</value>
+				<value>com.baidu.ite.mrbs.entity.Role</value>
 			</list>
 		</property>
 	</bean>
