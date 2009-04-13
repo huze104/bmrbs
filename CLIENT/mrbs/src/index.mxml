@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute"
+	fontSize="13"
+	horizontalAlign="center"
+	verticalAlign="middle"
+	verticalScrollPolicy="off"
+	horizontalScrollPolicy="off"
+	minWidth="990" minHeight="550"
+	creationComplete="initApplication()"
+	xmlns:view="com.baidu.ite.mrbs.view.*"
+	currentState="notlogin"
+	>
+	<mx:Style source="assets/orange/orange.css"/>
+	<mx:Metadata>
+		[Event('areaChange')]
+		[Event('login')]
+	</mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.CursorManager;
+			import com.baidu.ite.mrbs.view.SearchPanel;
+			import mx.managers.PopUpManagerChildList;
+			import com.baidu.ite.mrbs.view.RoomSearchEvent;
+			import com.baidu.ite.mrbs.entity.MrbsUser;
+			import com.baidu.ite.mrbs.view.LoginPanel;
+			import mx.managers.ToolTipManager;
+			import mx.managers.PopUpManager;
+			import mx.controls.Alert;
+			import mx.events.ItemClickEvent;
+			import com.baidu.ite.mrbs.entity.MrbsArea;
+			import mx.collections.ArrayCollection;
+			import com.baidu.ite.mrbs.NotificationConstants;
+			import com.baidu.ite.mrbs.ApplicationFacade;
+			private var facade:ApplicationFacade;
+			//对外触发区域改变事件，medidator会接收这个事件，并且做出处理
+			public static const AREACHANGE:String 	= 'areaChange';
+			public static const LOGIN:String 	= 'login';
+		    private var _areas:ArrayCollection;
+		    //将第一个办公区去掉，这个设计最他妈让我觉得狗屎了 当然了，我是在骂我自己没有原则
+		    private var _tempSearchAreas:ArrayCollection=new ArrayCollection();
+            [Bindable] public var username:String;
+            public var userLoin:MrbsUser;
+			[Bindable] public var selectedArea:MrbsArea;
+			
+			/**
+			 * 初始化
+			 */ 
+			private function initApplication(){
+				//告知puremvc系统已经启动，让其进行必要的初始化操作
+				facade=ApplicationFacade.getInstance();
+				facade.sendNotification(NotificationConstants.STARTUP,this);
+				//设置tooltip的消失时间
+				ToolTipManager.hideDelay=3000;
+				//临时说明
+				var hlp:Help = new Help();
+			    PopUpManager.addPopUp(hlp,this,true);
+			    PopUpManager.centerPopUp(hlp);
+			}
+			
+			[Bindable]
+	        public function set areas(areas:ArrayCollection):void{
+	        	this._areas=areas;
+	        	if(_areas.length>0){
+	        		areaBar.selectedIndex=0;
+	            	this.selectedArea=_areas.getItemAt(0) as MrbsArea;
+	            	roomPanel.status=selectedArea.areaName+"前台："+selectedArea.linkman;
+	        	}
+	        	_tempSearchAreas.removeAll();
+	        	var mrbsArea:MrbsArea;
+	        	//办公区不纳入到查询中
+	        	for each(mrbsArea in areas ) {
+					_tempSearchAreas.addItem(mrbsArea);
+			    }
+            }
+            
+            public function get areas():ArrayCollection{
+        		return this._areas;
+        	}
+			/**
+			 * 当area切换的时候
+			 */ 
+			private function clickHandler(e:ItemClickEvent):void {
+				this.selectedArea=e.item as MrbsArea;
+				roomPanel.status=selectedArea.areaName+"前台："+selectedArea.linkman;
+				roomPanel.roomPanelTitle="会议室预定系统";
+				roomPanel.isSearch=false;
+			}
+			/**
+			 * 改变时间后，通知panel
+			 */ 
+			private function showDayChange(e:Event):void {
+				roomPanel.currentDate=showDay.selectedDate;
+			}
+			/**
+			 * 搜索会议室
+			 */ 
+			private function searchRoom():void{
+				var searchPanel:SearchPanel=SearchPanel(PopUpManager.createPopUp(this,SearchPanel,true));
+				searchPanel.areas=_tempSearchAreas;
+				searchPanel.addEventListener(RoomSearchEvent.ROOMSEARCH,
+				                               function(e:RoomSearchEvent):void
+				                               {
+				                               	roomPanel.roomPanelTitle="会议室搜索中 请等待.....";
+				                               	//将鼠标设置为忙碌
+				                               	CursorManager.setBusyCursor();
+				                               	dispatchEvent(e);
+											   }
+											);
+			}
+			
+			/**
+			 *设置一个登陆panel
+			 */ 
+			private function loginButton():void { 
+				var loginPanel:LoginPanel=LoginPanel(PopUpManager.createPopUp(this,LoginPanel));
+				userLoin=new MrbsUser();
+				loginPanel.addEventListener(LoginPanel.LOGIN,
+				                               function(e:Event):void{
+				                               	    userLoin.loginName=loginPanel.username.text;
+				                                    userLoin.password=loginPanel.password.text;
+													dispatchEvent(new Event(LOGIN));
+											}
+											);
+								
+			}
+			private function feedBack():void { 
+				var urlRequest:URLRequest = new URLRequest("mailto:zhanghongzhi@baidu.com?subject=BMRBS反馈——第二个里程碑版&body=Hi,Hongzhi 发现一个bug！"); 
+				navigateToURL(urlRequest, "_self"); 
+			}
+		]]>
+	</mx:Script>
+	<mx:Binding source="selectedArea.mrbsRooms as ArrayCollection;" destination="roomPanel.rooms"/>
+	<mx:VBox width="1024" height="100%" paddingLeft="5" paddingRight="5" horizontalCenter="0"  top="5" verticalGap="1">
+	   <mx:Canvas>
+		   <mx:TabBar id="areaBar" color="0x323232" horizontalGap="5" labelField="areaName" itemClick="clickHandler(event);"  horizontalAlign="center">
+		     <mx:dataProvider>{areas}</mx:dataProvider>
+		   </mx:TabBar>
+		   <!--一个日期选择框，供用户选择想查看的日期-->
+		   <mx:DateField id="showDay" x="650" selectedDate="{new Date()}" showToday="true" selectableRange="{{rangeStart:new Date()}}" 
+		   		toolTip="选择查看特定日期的会议室预定情况" formatString="MM月DD日" close="showDayChange(event)"/>
+		   <mx:Button label="反馈" x="950" width="50" click="feedBack()"  fontWeight="bold" color="red" paddingRight="0"/>
+	   </mx:Canvas>
+	   <view:RoomPanel  id="roomPanel" width="100%" height="100%"/>
+    </mx:VBox>  
+	<!--设置两个状态，用来表示是否处于登陆状态-->
+	<mx:states>
+	     <mx:State name="alreadylogin" id="alreadylogin">
+	      	<mx:AddChild relativeTo="{showDay}" position="after">
+	       		<mx:Label x="750" id="welcomeLabel" width="150" text="欢迎:{username}"  fontWeight="bold" paddingTop="4" paddingRight="6"/>
+	       </mx:AddChild>
+	      	<mx:AddChild relativeTo="{welcomeLabel}" position="after">
+	            <mx:Button x="900" label="查询" width="50" click="searchRoom()"  paddingRight="0" toolTip="查询会议室"/> 
+	       </mx:AddChild>
+	     </mx:State>
+	     <mx:State name="notlogin" id="notlogin">
+	       <mx:AddChild relativeTo="{showDay}" position="after">
+	       		<mx:Button label="登陆" x="800" width="50" click="loginButton()" fontWeight="bold" paddingRight="0" toolTip="点击登陆系统后预定会议室"/>
+	       </mx:AddChild>
+	     </mx:State>
+	</mx:states>     	
+</mx:Application>

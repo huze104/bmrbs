@@ -15,17 +15,17 @@ INSERT INTO mrbs_area VALUES ('3', '镜台小筑', '5743/hi:some','','');
 INSERT INTO mrbs_user
    (id, login_name, name, email, tel, hi, department, view_choice, status, password)
 VALUES
-   (1, 'hongzhi', '张无忌', 'zhanghongzhi@baidu.com', '', '', '', '', 0, 'hongzhi');
+   (1, 'wuji', '张无忌', 'wuji@some.com', '', '', '', '', 0, 'wiji');
 INSERT INTO mrbs_user
    (id, login_name, name, email, tel, hi, department, view_choice, status, password)
 VALUES
    (2, 'tiantian', '甜哥', 'tiange@some.com', '', '', '', '', 0, 'tiange');
 
-update mrbs_user set assistant=1 where login_name like '%hongzhi%';
+update mrbs_user set assistant=1 where login_name like '%wuji%';
 update mrbs_user set assistant=1 where login_name like '%tiantian%';
 
 insert into mrbs_users_roles values(1,(select id from mrbs_user where login_name like '%tiantian%'));
-insert into mrbs_users_roles values(1,(select id from mrbs_user where login_name like '%zhanghongzhi%'));
+insert into mrbs_users_roles values(1,(select id from mrbs_user where login_name like '%wuji%'));
 
 INSERT INTO mrbs_room(id,area_id,room_name,room_admin_email,capacity,description) VALUES ('2', '1', '一枝春', '4356', '6', null);
 INSERT INTO mrbs_room(id,area_id,room_name,room_admin_email,capacity,description) VALUES ('3', '1', '双声子', '2345', '10', '');

@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+////////////////////////////////////////////////////////////////////////////////
+//
+//会议室展现
+//
+////////////////////////////////////////////////////////////////////////////////
+-->
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" 
+    layout="vertical" 
+    verticalScrollPolicy="off"
+    horizontalScrollPolicy="off" 
+    title="{roomPanelTitle}"
+    currentState="browse"
+    height="100%"
+    xmlns:view="com.baidu.ite.mrbs.view.*">
+    <mx:Script>
+        <![CDATA[
+        import com.baidu.ite.mrbs.ApplicationFacade;
+        import mx.controls.Alert;
+        import com.baidu.ite.mrbs.entity.MrbsRoom;
+        import mx.binding.utils.BindingUtils;
+        import flash.utils.Dictionary;
+        
+        import mx.collections.ArrayCollection;
+        import mx.collections.IViewCursor;
+        import mx.core.DragSource;
+        import mx.core.IUIComponent;
+        import mx.effects.Effect;
+        import mx.effects.Fade;
+        import mx.effects.Move;
+        import mx.events.EffectEvent;
+        import mx.events.DragEvent;
+        import mx.managers.DragManager;
+
+      
+        private var accepted:Dictionary = new Dictionary();
+        private var thumbnails:Array;
+        private var filterCount:int;
+        private var thumbnailState:String = 'browse'; //either 'browse' or 'detail'
+        //title需要根据不同的area而改变，故而设置成bindable
+        [Bindable]public var roomPanelTitle:String="会议室预定系统";
+        
+        //需要展示的会议室
+        private var _rooms:ArrayCollection;
+        [Bindable] public var schedules:ArrayCollection;
+        //当前展示结果是否搜索的结果
+        public var isSearch:Boolean=false;
+        //当前查看的日期是多少
+        private var _currentDate:Date; 
+        
+        //设置rooms
+        [Bindable]
+        public function set rooms(rooms:ArrayCollection){
+        	this._rooms=rooms;
+        	createThumbnails();
+        } 
+        
+        public function get rooms(){
+        	return this._rooms;
+        }
+                 
+        [Bindable]
+        public function set currentDate(date:Date):void{
+        	//判断两个日期是否是同一天，如果是同一天，就不需要设置了，更没有必要因此向服务端进行查询请求
+        	if(_currentDate){
+	        	if(_currentDate.month==date.month&&_currentDate.date==date.date){
+	        		return;
+	        	}
+        	}
+        	isSearch=false;
+        	this._currentDate=date;
+            //说明时间改变了，那么就需要将nail中的数据全部改变
+            for (var i=0; i <rooms.length; i++){
+            	thumbnails[i].currentDate=_currentDate;
+            }		
+        }		    
+		    
+		public function get currentDate():Date{
+			return _currentDate;
+		}
+        
+       /**
+       * 创建展示内容nail
+       */ 
+        public function createThumbnails():void
+        {
+            var i:int; //循环变量
+            if (thumbnails != null)
+            {
+                for (i=0; i < thumbnails.length; i++)
+                {
+                	//首先将所有的内容全部移除
+                    thumbContent.removeChild(thumbnails[i]);
+                }
+            }
+            
+            var row:int = 0;
+            var col:int = -1;
+            var n:int = rooms.length;
+            thumbnails = new Array(n);
+            filterCount = n;
+            
+            for (i=0; i < n; i++)
+            {
+                var thumb:RoomThumbnail = new RoomThumbnail();
+                thumbnails[i] = thumb;
+                thumbnails[i].showInAutomationHierarchy = true;
+                thumb.room = rooms.getItemAt(i) as MrbsRoom;
+                BindingUtils.bindProperty(thumb,"toogleToolTip",ApplicationFacade.getInstance(),"isUserLogin");
+                //将nail的日期设置成为当前查看时间
+                thumb.currentDate=_currentDate;
+                accepted[thumb.room] = true;
+                thumbContent.addChild(thumb);
+                if(isSearch){
+                	//如果是搜索，则展示搜索结果
+                	thumb.scheduleSelection.dataProvider=thumb.room.mrbsSchedules;
+                	thumb.tootlipString="本会议室搜索结果 点击后开始预定！";
+                	thumb.details.label="预定";
+                	thumb.details.toolTip="点击预定本会议室";
+                	//search时移除click事件，只保留双击事件。这样子，我就可以点击滚动条查看nail中更多数据 这一点纯属个人习惯 大众不一定喜欢
+                	thumb.removeEventListener(MouseEvent.CLICK,thumb.clickHandler);
+                }else{
+                	//如果不是搜索结果，那么就展示今天的预定结果
+                	thumb.loadTodaySchedule();
+                }
+                thumb.addEventListener(RoomThumbEvent.BROWSE, browserHandler);
+                thumb.addEventListener(RoomThumbEvent.DETAILS, showDetails);
+            }
+            //将初始状态设置，如果当前处于detail状态，那么如此设置后，detail页面将会被隐藏起来
+            //you konow this means to set detail component's visiable property to false
+            currentState="browse";
+            layoutCatalog();
+        }
+        
+        
+         private function layoutCatalog():Effect
+        {
+            var tileWidth:Number;
+            var tileHeight:Number;
+            var numCols:int;
+            if (filterCount > 9)
+            {
+                numCols = 4;
+                tileWidth = RoomThumbnail.COL_WIDTH_4;
+                tileWidth = RoomThumbnail.COL_WIDTH_4
+                tileHeight = RoomThumbnail.COL_HEIGHT_4;
+            }
+            else if (filterCount > 4)
+			{
+                numCols = 3;
+                tileWidth = RoomThumbnail.COL_WIDTH_3;
+                tileHeight = RoomThumbnail.COL_HEIGHT_3;
+            }
+			else if (filterCount <= 9)
+			{
+                numCols = 2;
+                tileWidth = RoomThumbnail.COL_WIDTH_2;
+                tileHeight = RoomThumbnail.COL_HEIGHT_2;
+            }
+			else
+			{
+            }
+            
+            var row:int = 0;
+            var col:int = -1;
+
+			var move:Move = null;
+
+            var n:int = rooms.length;
+			for (var i:int = 0 ; i < n ; i++)
+			{
+                var room:MrbsRoom = rooms.getItemAt(i) as MrbsRoom;
+                var thumb:RoomThumbnail = thumbnails[i];
+                if (accepted[room])
+                {
+                    thumb.currentState = "" + numCols + "cols";
+                    col++;
+                    if (col > numCols - 1)
+					{
+                        row++;
+                        col = 0;
+                    }
+
+                    var xTo:Number = col * (tileWidth + RoomThumbnail.HORIZONTAL_GAP);
+                    var yTo:Number = row * (tileHeight + RoomThumbnail.VERTICAL_GAP);
+
+                    // If the thumbnail is already visible
+					// animate it to its new position.
+                    if (thumb.visible)
+					{
+                        // Animate only if the position is different
+						// from its current position.
+                        if (thumb.x != xTo || thumb.y != yTo)
+						{
+                            move = new Move(thumb);
+                            move.xTo = xTo;
+                            move.yTo = yTo;
+                            move.play();
+                        }
+                    }
+
+                    // If the thumbnail was not previously visible, sets its
+					// x and y coordinates. We'll make it reappear after all
+                    // the visible thumbnails have reached their new position.
+					else
+					{
+                        thumb.x = xTo;
+                        thumb.y = yTo;
+                        thumb.includeInLayout = true;
+                    }
+                }
+				else
+				{
+                    thumb.visible = false;
+                    thumb.includeInLayout = false;
+                }
+            }
+
+            if (!move)
+			{
+                // No visible thumbnails were animated to a new position;
+				// fade in newly selected thumbnails right away.
+                fadeInThumbnails();
+            }
+			else
+			{
+			    //since movement is happening get the scrollbar back to the top
+				thumbContent.verticalScrollPosition = 0;
+            }
+            //return the last move to watch
+            return move;
+        }
+        
+         //return the last effect so we could add effectEnd handler if desired
+        private function fadeInThumbnails():void
+		{
+			var n:int = thumbnails.length;
+			var effect:Fade = new Fade();
+			effect.alphaTo = 1;
+			var targets:Array = [];
+			for (var i:int = 0; i < n ; i++)
+			{
+			    var thumb:RoomThumbnail = thumbnails[i];
+                thumb.alpha = 0;
+                thumb.visible = true;
+                targets.push(thumb);
+            }
+            if (targets.length > 0)
+            {
+                effect.targets = targets;
+                effect.play();
+            }
+        }
+        
+        private function browserHandler(event:RoomThumbEvent):void
+        {
+            if (event.type == RoomThumbEvent.BROWSE)
+            {               
+                    currentState = "browse";
+                    this.title="百度会议室预定系统";
+                    layoutCatalog();
+            }
+            else
+            {
+                dispatchEvent(event);
+            }
+        }
+        private function showDetails(event:RoomThumbEvent):void
+        {
+        	var currentRoom:MrbsRoom=event.room;
+        	//将会议室信息展现在panal的title上
+        	roomPanelTitle="会议室名称："+currentRoom.roomName+"   容纳："+currentRoom.capacity+"人   电话："+currentRoom.roomAdminEmail;
+            if (currentState == "detailsState")
+			{
+                details.room = currentRoom;
+                return;
+            }
+
+            var row:int = -1;
+
+            //should be computed using border metrics instead of hard-coding the 20, but...
+			var xTo:Number = thumbContent.width - RoomThumbnail.COL_WIDTH_4 - 20;
+            var yTo:Number;
+
+            var move:Move;
+            var first:Boolean = true;
+            var selectedThumb:RoomThumbnail;
+
+            var n:int = thumbnails.length;
+			for (var i:int = 0; i < n; i++)
+			{
+			    var thumb:RoomThumbnail = thumbnails[i];
+                if (thumb.visible)
+				{
+                    row++;
+                    yTo = row * (RoomThumbnail.COL_HEIGHT_4 + RoomThumbnail.VERTICAL_GAP);
+
+                    thumb.currentState = "4cols";
+
+                    if (thumb.x != xTo || thumb.y != yTo)
+					{
+                        move = new Move(thumb);
+                        if (first)
+						{
+                            move.addEventListener(EffectEvent.EFFECT_END,
+								function(event:EffectEvent):void
+								{
+									details.room = currentRoom;
+                                    currentState = "detailsState";
+								});
+
+                            first = false;
+                        }
+                        move.xTo = xTo;
+                        move.yTo = yTo;
+                        move.play();
+                    }
+                    
+                    if (thumb.room == currentRoom)
+                    {
+                        selectedThumb = thumb;
+                    }
+                }
+            }
+            if (selectedThumb != null)
+            {
+                //make sure that the selected thumb is visible in the list on the right
+                move.addEventListener(EffectEvent.EFFECT_END,
+					function(e:EffectEvent):void
+					{
+					    var curpos:int = thumbContent.verticalScrollPosition;
+					    if (selectedThumb.y < curpos)
+					    {
+					        thumbContent.verticalScrollPosition = y;
+					    }
+					    else if (selectedThumb.y + RoomThumbnail.COL_HEIGHT_4 > curpos + thumbContent.height)
+					    {
+					        //this logic doesn't seem to be perfect but it will do
+					        var diff:int = selectedThumb.y - (curpos + thumbContent.height)
+					        thumbContent.verticalScrollPosition += diff + RoomThumbnail.COL_HEIGHT_4 + RoomThumbnail.VERTICAL_GAP;
+					    }
+					});
+            }
+            
+        }
+        
+        
+        
+        ]]>
+    </mx:Script>
+    <!-- 这个hbox放的让我莫名其妙，如果没有，这个canvas竟然从00画起-->
+    <mx:HBox width="100%" height="100%" paddingTop="28" paddingLeft="15" paddingRight="15" >
+      <mx:Canvas width="100%" height="100%" 
+        verticalScrollPolicy="off"
+        horizontalScrollPolicy="off"
+        paddingRight="0">
+    	<mx:Canvas id="thumbContent" width="100%" height="100%" horizontalScrollPolicy="off"  bottom="12" top="6"/>
+        <view:RoomDetails id="details"  width="{RoomThumbnail.COL_WIDTH_4 * 3}"  height="100%"  visible="false" browse="browserHandler(event)"/>
+    	</mx:Canvas>
+    </mx:HBox>
+    <mx:states>
+	     <mx:State name="browse" id="browse"></mx:State>
+	     <mx:State name="detailsState" id="detailsState">
+	       <mx:SetProperty target="{details}" name="visible" value="true"/>
+	     </mx:State>
+    </mx:states>
+</mx:Panel>

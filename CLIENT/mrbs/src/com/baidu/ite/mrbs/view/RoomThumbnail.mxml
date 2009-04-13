@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+////////////////////////////////////////////////////////////////////////////////
+//
+//在列表区域内展示room，由于这个是动态添加在展现区域中的，故而自身自己维护puremvc需要的初始化
+//
+////////////////////////////////////////////////////////////////////////////////
+-->
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+    width="{COL_WIDTH_4}" height="{COL_HEIGHT_4}"
+    borderStyle="solid"
+    dropShadowEnabled="true"
+    shadowDirection="right"
+    borderColor="#FFFFFF"
+    horizontalScrollPolicy="off" 
+    verticalScrollPolicy="off"
+    rollOver="rollOverHandler(event)"
+    rollOut="rollOutHandler(event)"
+    doubleClickEnabled="true"
+    doubleClick="clickHandler(event)"
+    click="clickHandler(event)"
+    currentState="4cols"
+    automationName="{room.roomName}"
+    dropShadowColor="#000000"
+    shadowDistance="-4"
+    toolTip="{tootlipString}"
+    cornerRadius="5"
+    >
+
+    <mx:Metadata>
+        [Event('loadTodaySchedule')]
+        [Event(name="details", type="com.baidu.ite.mrbs.view.RoomThumbEvent")]
+    </mx:Metadata>
+
+    <mx:Script>
+        <![CDATA[
+        	import mx.binding.utils.BindingUtils;
+        	import mx.managers.CursorManager;
+        	import mx.controls.ToolTip;
+        	import mx.managers.ToolTipManager;
+        	import mx.controls.Alert;
+        	import mx.collections.ArrayCollection;
+        	import com.baidu.ite.mrbs.NotificationConstants;
+        	import com.baidu.ite.mrbs.ApplicationFacade;
+        	import com.baidu.ite.mrbs.entity.MrbsRoom;
+
+		import mx.events.*;
+        import mx.core.*;
+        
+        
+        public static const COL_WIDTH_4:int = 235;
+        public static const COL_HEIGHT_4:int = 197;
+        public static const COL_WIDTH_3:int = 313;
+        public static const COL_HEIGHT_3:int = 280;
+        public static const COL_WIDTH_2:int = 470;
+        public static const COL_HEIGHT_2:int = 300;
+        public static const COMPARE_WIDTH:int = 162;
+        public static const HORIZONTAL_GAP:int = 5;
+        public static const VERTICAL_GAP:int = 3;
+     
+        [Bindable] public var room:MrbsRoom;
+        
+        [Bindable] public var tootlipString:String="登陆查看更多预定情况";
+        //显示提示
+        private var tooltip:IToolTip;
+        var tipsContent:String="";
+        var mousePoint:Point;
+        var facade:ApplicationFacade=ApplicationFacade.getInstance();
+        //当前查看的日期是多少
+        private var _currentDate:Date; 
+        [Bindable]
+        public function set currentDate(date:Date):void{
+        	this._currentDate=date;
+        	//因为需要动态改变数据，而如果数据库中该会议室没有预定，then...\
+            //说明时间改变了，那么就需要将nail中的数据全部改变
+            dispatchEvent(new Event('loadTodaySchedule'));	
+        }		    
+        //当用户登陆以后，改变tooltip的值
+		[Bindable]    
+		public function set toogleToolTip(changeToolTip:Boolean):void{
+			if(changeToolTip){
+				tootlipString="单日预定情况 点击查看更多";
+			}	
+		}    
+		    
+		public function get currentDate():Date{
+			return _currentDate;
+		}
+        public  function loadTodaySchedule():void
+        {
+			facade.sendNotification(NotificationConstants.ROOMTHUMB_INIT,this);	
+			dispatchEvent(new Event('loadTodaySchedule'));
+        }
+		
+      
+        private function rollOverHandler(event:MouseEvent):void
+		{
+			if(!facade.isUserLogin){
+				return;
+			}
+            setStyle("dropShadowColor", "#de8800");
+            setStyle("borderColor", "#de8800");
+            buttons.visible = true;
+        }
+
+        private function rollOutHandler(event:MouseEvent):void
+		{
+			setStyle("dropShadowColor", "#000000");
+            setStyle("borderColor", "#FFFFFF");
+			buttons.visible = false;
+        }
+        /**
+        * 该方法是为了展示item提示的，但是发现效果并不好，故而没有使用。
+        * 流下来作为一个例子，如果使用请将scheduleSelection的展示lable的标志设置为true
+        */ 
+        private function listScheduleLable(item:Object):String{
+        	if(item.startTime==null){
+        		return "";
+        	}else{
+        	 return dateFormatterDay.format(item.startTime)+"日"+dateFormatter.format(item.startTime)+"-"+dateFormatter.format(item.endTime)+" "+item.preside;
+        	}
+        }
+        /**
+        * 当鼠标移到item上时，给出更多提示
+        */ 
+        private function changeToolTip(e:mx.events.ListEvent):void{
+        	 if(tooltip){
+        	 	ToolTipManager.destroyToolTip(tooltip);
+        	 }
+        	 tipsContent=e.itemRenderer.data.description;
+        	 mousePoint=localToGlobal(new Point(mouseX,mouseY));
+             tooltip=ToolTipManager.createToolTip(tipsContent,mousePoint.x+4,mousePoint.y+4);
+        }
+        /**
+        * 当移除去的时候，删除tip
+        */ 
+        private function deleteTips(e:MouseEvent):void{
+        	 if(tooltip){
+        	 	ToolTipManager.destroyToolTip(tooltip);
+        	 }
+        	 //此点需要注意，需要将其设置为空，否则会造成错误
+        	 tooltip=null;
+        }
+       
+
+        public function clickHandler(event:MouseEvent):void
+        {
+        	//如果没有登陆，那么就算了
+        	if(!ApplicationFacade.getInstance().isUserLogin){
+        		return ;
+        	}
+        	//判断
+            if (event.target != details)
+            {
+                dispatchEvent(new RoomThumbEvent(com.baidu.ite.mrbs.view.RoomThumbEvent.DETAILS, room));
+            }
+        }
+
+	]]>
+    </mx:Script>
+    <mx:DateFormatter id="dateFormatter" formatString="HH:NN"/>
+    <mx:DateFormatter id="dateFormatterDay" formatString="DD"/>
+    <!--按钮展现和隐藏的效果-->
+    <mx:Iris id="irisIn" duration="300" showTarget="false"/>
+    <mx:VBox width="100%" height="100%">
+	    <mx:HBox id="vb" width="100%" height="10%">
+	        <mx:Label text="{room.roomName}" fontWeight="bold" selectable="false"/>
+	        <mx:Text text="{room.capacity}人/{room.roomAdminEmail}" selectable="false"/>
+	        <mx:HBox id="buttons" visible="false"  showEffect="{irisIn}"  horizontalAlign="right">
+	          <mx:Button id="details" icon="@Embed('/assets/icon_details.png')" height="20" verticalCenter="0" label="更多" width="80" click="dispatchEvent(new RoomThumbEvent(RoomThumbEvent.DETAILS, room))"  toolTip="点击查看更多预定情况"/>
+	        </mx:HBox>
+	    </mx:HBox>
+	    <mx:TileList width="100%"  height="90%" id="scheduleSelection"  columnWidth="{COL_WIDTH_4}" maxColumns="1"  textAlign="left"
+	    	     itemRollOver="changeToolTip(event)" rollOut="deleteTips(event)"  labelFunction="listScheduleLable" />
+    </mx:VBox>
+    <mx:states>
+        <mx:State name="4cols">
+            <mx:SetProperty name="width" value="{COL_WIDTH_4}"/>
+            <mx:SetProperty name="height" value="{COL_HEIGHT_4}"/>
+        </mx:State>
+        <mx:State name="3cols">
+            <mx:SetProperty name="width" value="{COL_WIDTH_3}"/>
+            <mx:SetProperty name="height" value="{COL_HEIGHT_3}"/>
+        </mx:State>
+        <mx:State name="2cols" basedOn="3cols">
+            <mx:SetProperty name="width" value="{COL_WIDTH_2}"/>
+            <mx:SetProperty name="height" value="{COL_HEIGHT_2}"/>
+        </mx:State>
+    </mx:states>
+</mx:Canvas>

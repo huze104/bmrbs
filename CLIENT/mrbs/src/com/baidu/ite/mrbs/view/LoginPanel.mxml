@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*"   
+	title="用户登陆" 
+	autoLayout="true" width="100%" height="100%"  showCloseButton="true" creationComplete="init()" close="{PopUpManager.removePopUp(this);}">
+	<mx:Script>
+	    <![CDATA[
+	    	import mx.managers.PopUpManager;
+	    	import mx.controls.Alert;
+	    	import mx.events.ValidationResultEvent;
+			import mx.collections.ArrayCollection;
+
+			public static const LOGIN:String	= "login";
+
+            private function init(){
+              PopUpManager.centerPopUp(this);
+            }
+ 
+			// mutate the loginBtn's click event into a flash event			
+			private function login() : void 
+			{
+				vUsername.enabled = true;
+				vPassword.enabled = true;
+				// validate the fields
+				var noUsername : Boolean = vUsername.validate().type == ValidationResultEvent.INVALID;
+				var noPassword : Boolean = vPassword.validate().type == ValidationResultEvent.INVALID;
+				if (noUsername || noPassword){
+					return;
+				}else{
+					//cursorManager.setBusyCursor();
+					dispatchEvent( new Event( LoginPanel.LOGIN ) );
+				}
+				//将当前的登陆界面移除
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function resetLogin():void
+			{
+				vUsername.enabled = false;
+				vPassword.enabled = false;
+				username.text = "";
+				password.text = "";
+			}
+					
+	    ]]>
+	</mx:Script>
+
+    <mx:StringValidator id="vUsername" source="{ username }" property="text" required="true" requiredFieldError="用户名为必填"/>
+    <mx:StringValidator id="vPassword" source="{ password }" property="text" required="true" requiredFieldError="密码必填"/>
+	    <mx:Form id="loginForm" defaultButton="{loginBtn}" paddingTop="30">
+	    	<mx:FormItem label="用户名:">
+	    		<mx:TextInput id="username"/>
+	    	</mx:FormItem>
+	    	<mx:FormItem label="密码:">
+	    		<mx:TextInput id="password" displayAsPassword="true" />
+	    	</mx:FormItem>
+	    	<mx:FormItem direction="horizontal" verticalGap="15">
+	    		<mx:Button id="loginBtn" label="登陆" click="login()"/>
+	    		<mx:Button id="resetBtn" label="重置" click="resetLogin()"/>
+	    	</mx:FormItem>
+	    </mx:Form>
+    </mx:TitleWindow>

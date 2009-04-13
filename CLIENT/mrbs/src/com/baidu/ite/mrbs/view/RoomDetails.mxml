@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+////////////////////////////////////////////////////////////////////////////////
+//
+//展示一个会议室的详细情况，详细的描述信息，预定情况
+//
+////////////////////////////////////////////////////////////////////////////////
+-->
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
+    horizontalScrollPolicy="off"
+    verticalScrollPolicy="off"
+    xmlns:view="com.baidu.ite.mrbs.view.*"
+    xmlns:baiduFlexComponent="com.baidu.flexcomponent.alterSelectList.*" 
+    creationComplete="createCompleteFunction()"
+    >
+
+    <mx:Metadata>
+        [Event(name="browse", type="com.baidu.ite.mrbs.view.RoomThumbEvent")]
+        [Event(name="roomchange")]
+        [Event(name="repeatsubmit")]
+        [Event(name="deleteschedule")]
+    </mx:Metadata>
+
+    <mx:Script>
+        <![CDATA[
+        	import com.baidu.ite.mrbs.ApplicationFacade;
+        	import com.baidu.ite.mrbs.entity.MrbsSchedule;
+        import com.baidu.ite.mrbs.entity.MrbsRepeat;
+        import mx.collections.ArrayCollection;
+        import com.baidu.ite.mrbs.entity.MrbsRoom;
+        import com.baidu.ite.mrbs.view.RoomThumbEvent;
+		import mx.events.*;
+
+        private var _room:MrbsRoom;
+        [Bindable] public var schedules:ArrayCollection;
+        [Bindable] public var repeat:MrbsRepeat;
+        //删除按钮确认
+        [Bindable] public var armed:Boolean = false; 
+        //grid中当前选中数据是否是当前用户预定的，如果是，则允许其删除，否则不显示删除
+        [Bindable] public var isUserDataItem=false;
+        
+        public static const DELETESCHEDULE:String 	= 'deleteschedule';
+        [Bindable]
+        public function get room():MrbsRoom
+        {
+            return _room;
+        }
+        
+        public function set room(r:MrbsRoom):void {
+            _room = r;
+            tn.selectedIndex = 0;
+            armed=false;
+            isUserDataItem=false
+            //说明会议室改变了，触发事件去获取该会议室预定详情
+            dispatchEvent(new Event("roomchange"));
+        }
+        
+        private function submitRepeat(event:Event):void{
+        	repeat=repeatForm.repeat;
+        	repeat.mrbsRoom=this._room;
+			dispatchEvent(new Event("repeatsubmit")); 
+        }
+        
+		private function createCompleteFunction():void{
+			repeatForm.addEventListener(RepeatForm.ADD,submitRepeat);
+		}
+		
+		private function labelDay (item:Object, dc:DataGridColumn ):String
+		{
+			return dayFormatter.format(item.startTime);
+		}
+		private function labelWeek (item:Object, dc:DataGridColumn ):String
+		{
+			return weekFormatter.format(item.startTime);
+		}
+		private function labelStart (item:Object, dc:DataGridColumn ):String
+		{
+			return timeFormatter.format(item.startTime);
+		}
+		private function labelEnd (item:Object, dc:DataGridColumn ):String
+		{
+			return timeFormatter.format(item.endTime);
+		}
+		/**
+		 * 提示显示 目前这个只是作为demo而存在，没有纳入实际应用
+		 */ 
+		private function scheduleTipFunction(item:Object):String{
+        	 return item.description;
+        }
+        
+		private function gridItemClick(event:ListEvent):void{
+			var sch:MrbsSchedule= sheduleDataGrid.selectedItem as MrbsSchedule;
+        	if(sch.createBy==ApplicationFacade.getInstance().user.name){
+        		isUserDataItem=true;
+        	}else{
+        		isUserDataItem=false;
+        		armed=false;
+        	}
+        }
+        
+        private function setCustomColor(item:Object, color:uint):uint
+		{
+		    if( item['createBy'] ==ApplicationFacade.getInstance().user.name )
+		    {
+		        return 0xC9EC9C;
+		    }else if(item['preside'] ==ApplicationFacade.getInstance().user.name){
+		        return 0xC9ECEC;
+		    }
+		    return color;
+		}
+	]]>
+    </mx:Script>
+    <mx:DateFormatter id="timeFormatter" formatString="HH:NN"/>
+    <mx:DateFormatter id="dayFormatter" formatString="M月D日"/>
+    <mx:DateFormatter id="weekFormatter" formatString="EEEE"/>
+    <mx:TabNavigator id="tn" width="100%" height="100%" left="4" right="16" top="6" bottom="4" horizontalGap="5" >
+        <!--当前会议室预定情况-->
+        <mx:VBox width="100%" height="100%" label="详情" verticalGap="8" paddingLeft="8" paddingTop="8" paddingRight="8" paddingBottom="8" showEffect="Fade" hideEffect="Fade">
+        	<baiduFlexComponent:CustomRowColorDataGrid width="100%" height="100%"   showDataTips="false" dataTipFunction="scheduleTipFunction"
+        		        id="sheduleDataGrid" 
+        		        itemClick="gridItemClick(event)" 
+        		        dataProvider="{schedules}" 
+        		        rowColorFunction="setCustomColor"
+        		        >
+				<baiduFlexComponent:columns>
+					<mx:DataGridColumn  headerText="日期" labelFunction="labelDay" sortable="false"/>
+					<mx:DataGridColumn  headerText="星期" labelFunction="labelWeek" sortable="false"/>
+					<mx:DataGridColumn  headerText="开始" labelFunction="labelStart" sortable="false"/>
+					<mx:DataGridColumn  headerText="结束" labelFunction="labelEnd" sortable="false"/>
+					<mx:DataGridColumn  dataField="preside"  headerText="组织者"/>
+					<mx:DataGridColumn  dataField="createBy"  headerText="创建"/>
+				</baiduFlexComponent:columns>
+		    </baiduFlexComponent:CustomRowColorDataGrid>
+		</mx:VBox>
+        <!--
+        <mx:VBox width="100%" height="100%" label="{room.roomName}介绍" verticalGap="8" paddingLeft="8" paddingTop="8" paddingRight="8" paddingBottom="8" showEffect="Fade" hideEffect="Fade">
+			<mx:Label text="会议室名称:{room.roomName}"/>
+			<mx:Label text="容纳人数：{room.capacity}"/>
+			<mx:Label text="联系方式：{room.roomAdminEmail}"/>
+			<mx:Label text="简介：{room.description}"/>
+        </mx:VBox>
+        -->
+        <view:RepeatForm id="repeatForm" label="预定" showEffect="Fade" hideEffect="Fade" show="isUserDataItem=false;armed=false;"/>
+    </mx:TabNavigator>
+
+    <mx:HBox verticalGap="4" right="5" paddingRight="25">
+        <mx:Spacer width="100%"/>
+        <!-- Delete Confirmation -->
+        <mx:HBox id="deleteArmed" visible="{armed}" verticalAlign="middle">
+			<mx:Label text="确认删除?" color="red"/>
+			<mx:LinkBar itemClick="(event.item == '是')?dispatchEvent(new Event(DELETESCHEDULE)):armed=false">
+				<mx:dataProvider>
+					<mx:String>是</mx:String>
+					<mx:String>否</mx:String>
+				</mx:dataProvider>
+			</mx:LinkBar>
+	    </mx:HBox>
+        <mx:Button label="删除" click="armed=true"  visible="{isUserDataItem}"/>
+        <mx:Button icon="@Embed('/assets/icon_tiles.png')" label="返回" click="dispatchEvent(new RoomThumbEvent(RoomThumbEvent.BROWSE, room));armed=false;isUserDataItem=false;" width="80" toolTip="返回"/>
+    </mx:HBox>
+</mx:Canvas>

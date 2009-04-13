@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*"  
+	xmlns:baiduFlexComponent="com.baidu.flexcomponent.alterSelectList.*" 
+	title="搜索可用会议室" 
+	autoLayout="true" width="500" height="400"  
+	showCloseButton="true"
+	creationComplete="init()" 
+	close="{PopUpManager.removePopUp(this);}"
+	>
+	<!-- 本组件发送出的事件 -->
+	<mx:Metadata>
+		[Event('roomsearch')]
+	</mx:Metadata>
+	<mx:Script>
+	    <![CDATA[
+	    	import mx.messaging.messages.ISmallMessage;
+	    	import com.baidu.ite.mrbs.entity.MrbsArea;
+	    	import com.baidu.ite.mrbs.entity.util.RoomSearchBean;
+	    	import mx.managers.PopUpManager;
+	    	import mx.controls.Alert;
+	    	import mx.events.ValidationResultEvent;
+			import mx.collections.ArrayCollection;
+			
+			[Bindable] public var areas:ArrayCollection;
+			
+            private function init(){
+              PopUpManager.centerPopUp(this);
+            }
+ 
+			private function search() : void 
+			{
+			    var roomSearchBean:RoomSearchBean=new RoomSearchBean();
+			    roomSearchBean.capacity=capacity.value;
+			    roomSearchBean.timeConsuming=timeConsuming.value;
+			    roomSearchBean.startDate=startDate.selectedDate;
+			    roomSearchBean.endDate=endDate.selectedDate;
+			    var selectAreas : ArrayCollection = new ArrayCollection();
+                for each(var area:MrbsArea in selectArea.selectedItems) {
+                	selectAreas.addItem(area);
+                }  	
+			    roomSearchBean.areaList=selectAreas;
+			   	roomSearchBean.beiginHour=startHourStepper.value;
+				roomSearchBean.beiginMimi=startMini.selectedItem.data;
+				roomSearchBean.isMust=Number(isMust.selectedValue);
+				dispatchEvent( new RoomSearchEvent(roomSearchBean) );
+				//将当前的界面移除
+				PopUpManager.removePopUp(this);
+			}
+	    ]]>
+	</mx:Script>
+	<mx:Form id="loginForm" defaultButton="{loginBtn}" paddingTop="30">
+	    <mx:FormItem label="与会人数:" required="true">
+	    	<mx:NumericStepper  id="capacity"  minimum="3" maximum="20" stepSize="1"  value="3" width="65"/>
+	   	</mx:FormItem>
+	    <mx:FormItem label="会议用时（单位：小时）:" required="true">
+	    	<mx:NumericStepper  id="timeConsuming"  minimum="0.5" maximum="8" stepSize="0.5"  value="0.5" width="65"/>
+	   	</mx:FormItem>
+		<mx:FormItem label="开始日期：" required="true">
+		    <mx:DateField id="startDate" yearNavigationEnabled="false" selectedDate="{new Date()}"  selectableRange="{{rangeStart:new Date()}}"  color="0x000000"/>
+		</mx:FormItem>
+		<mx:FormItem label="结束日期："  id="endTimeItem" toolTip="搜索结束日期">
+		    <mx:DateField id="endDate" yearNavigationEnabled="false"  selectedDate="{startDate.selectedDate}" selectableRange="{{rangeStart:startDate.selectedDate}}"  color="0x000000"/>
+		</mx:FormItem>
+		<mx:FormItem label="预定区域：">
+			<baiduFlexComponent:AlternateSelectionList id="selectArea" dataProvider="{areas}"   direction="horizontal" textAlign="left" columnCount="2" columnWidth="100" allowMultipleSelection="true" width="250">
+				<baiduFlexComponent:itemRenderer>
+					<mx:Component>
+					<baiduFlexComponent:CheckBoxItemRenderer label="{data.areaName}"/>
+					</mx:Component>
+				</baiduFlexComponent:itemRenderer>
+			</baiduFlexComponent:AlternateSelectionList>
+		</mx:FormItem>
+		<mx:FormItem label="需要会议参考时间：" id="alldayItem"  direction="horizontal" toolTip="如果会议时间作为必须条件，则只会查询该段时间内空闲会议室，否则查询所有满足会议用时的会议室">
+		    <mx:RadioButtonGroup id="isMust" selectedValue="0"/>
+			<mx:RadioButton groupName="isMust" label="否" value="0"/>
+			<mx:RadioButton groupName="isMust" label="是" value="1"/>
+		</mx:FormItem>
+		<mx:FormItem label="会议时间:" direction="horizontal" visible="{isMust.selectedValue=='1'}" required="true">
+	    	<mx:NumericStepper id="startHourStepper"   minimum="9"  maximum="18" stepSize="1"   width="65"/>
+		    <mx:Label text="时"/>
+		    <mx:ComboBox id="startMini" width="65">
+		    	<mx:ArrayCollection>
+		    	    <mx:Object label="00" data="00"/>
+		    	    <mx:Object label="30" data="30"/>
+			    </mx:ArrayCollection>
+		    </mx:ComboBox>
+		     <mx:Label text="分"/>
+	   	</mx:FormItem>
+	   	<mx:FormItem direction="horizontal" verticalGap="15">
+	   		<mx:Button id="loginBtn" label="查询" click="search()"/>
+    		<mx:Button id="resetBtn" label="关闭" click="{PopUpManager.removePopUp(this);}"/>
+       	</mx:FormItem>
+	</mx:Form>
+</mx:TitleWindow>

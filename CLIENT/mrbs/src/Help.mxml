@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Panel xmlns="http://www.adobe.com/2006/mxml"  width="500" height="500" title="BY ART(Autonomous RD Team)" 
+	horizontalAlign="center"
+	verticalAlign="middle"
+	>
+    
+	<Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			[Bindable] public var helpText:String =
+			"1. 版本\n" + 
+			"  第二个里程碑版本！\n" + 
+			"2. 联系我们\n"+
+			"  hi群：1096263\n"+
+			"3. 感谢\n"+
+			"  感谢张延东，嗯....！\n"+
+			"  感谢肖昆对于产品设计提出的建议！\n"+
+			"  感谢周甜，郭凛在开发过程中给予的支持\n"+
+			"  感谢我的领导立艳和林华，感谢他们给了我足够的开发空间（当然也包括我霸占了周甜一部分工位）！\n"+
+			"4.感言\n"+
+			"  以此向springside团队致敬！\n"+
+			"  感谢小豪给予的支持，他的支持和这个项目的开发伴我度过了09年孤独的春天！";
+			
+		]]>
+	</Script>
+	<TextArea editable="false" fontSize="12" width="95%" height="85%" text="{helpText}"/>
+	<ControlBar horizontalAlign="right">
+		<Button label="OK" click="PopUpManager.removePopUp(this);" />
+	</ControlBar>
+</Panel>

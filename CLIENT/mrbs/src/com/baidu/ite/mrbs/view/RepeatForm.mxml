@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	creationComplete="creationCompleteHandle(event)"
+	currentState="normal">
+	<!-- 本组件发送出的事件 -->
+	<mx:Metadata>
+		[Event('addrepeat')]
+		[Event('update')]
+	</mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import mx.core.Application;
+			import com.baidu.ite.mrbs.ApplicationFacade;
+			import mx.utils.ArrayUtil;
+			import mx.events.ItemClickEvent;
+			import mx.events.NumericStepperEvent;
+			import com.baidu.ite.mrbs.entity.MrbsRepeat;
+			import mx.events.ValidationResultEvent;
+			import mx.validators.Validator;
+			import mx.managers.ToolTipManager;
+			import mx.controls.Alert;
+
+			public static const ADD:String 	= "addrepeat";
+			public static const UPDATE:String = "update";
+            [Bindable]public var repeat:MrbsRepeat;
+            
+			//负责验证的数组
+			private var _validators:Array;
+			
+			private function creationCompleteHandle(event:Event):void{
+				if(repeat==null){
+					repeat=new MrbsRepeat();
+				}
+				orderMan.text=ApplicationFacade.getInstance().user.name;
+				//初始化验证数组
+				_validators=[orderManValidator,descriptionValidator,startDateValidator,startMiniValidator,endMiniValidator,repOptGroupValidator];
+			}
+			/**
+			 * @detaced 当改变的时候，加入或者减少validator 这个方法已经不再使用
+			 */ 
+			private function changeRepOptGroup(event:ItemClickEvent):void{
+				var indexInt:int=-1;
+				if (event.currentTarget.selectedValue == "2"||event.currentTarget.selectedValue == "3") {
+                   indexInt=ArrayUtil.getItemIndex(repeatWeekDayValidator,_validators);
+                   if(indexInt==-1){
+                    	_validators.push(repeatWeekDayValidator);
+                    }
+	            } else{ 
+	            	indexInt=ArrayUtil.getItemIndex(repeatWeekDayValidator,_validators);
+                   if(indexInt!=-1){
+                    	_validators.pop();
+                    }
+	            }
+			}
+			/**
+			 * 当用户选择了全天后，将开始时间和结束时间都设置好
+			 */ 
+			private function alldayClick(event:ItemClickEvent):void{
+				if (event.currentTarget.selectedValue == "1") {
+				   startHourStepper.value=9;
+				   endHourStepper.value=18;
+                   startMini.selectedIndex=0;
+                   endMini.selectedIndex=0;
+	            }
+			}
+			
+			//提交新增或者更新
+			private function submit():void
+			{
+				//first we shuld validator form
+				//run all validators
+				var validatorResult:Array=Validator.validateAll(_validators);
+				//if array is empty that means all validator pass ,if not ,there are some not pass
+				if(validatorResult.length>0){
+                     var message:String="";
+                     for(var i:int=0;i<validatorResult.length;i++){
+                     	message+=ValidationResultEvent(validatorResult[i]).message+"\n";
+                     }
+                     Alert.show(message,"表单未填写完整！");
+                     return; 				
+				}
+				repeat.orderman=orderMan.text;
+				repeat.description=description.text;
+			    //是否全天
+				repeat.allday=Number(allday.selectedValue);
+				repeat.startDate=startDate.selectedDate;
+				repeat.startHour=startHourStepper.value+"";
+				repeat.startMini=startMini.selectedItem.data;
+				repeat.endHour=endHourStepper.value+"";
+				repeat.endMini=endMini.selectedItem.data;
+				repeat.repOpt=Number(repOptGroup.selectedValue);
+				if(repeatWeekDay.selectedItem){
+				    repeat.repeatWeekDay=repeatWeekDay.selectedItem.data;
+				}
+				repeat.weekSpan=weekSpan.value;
+				repeat.endDate=endDate.selectedDate;
+				repeat.createBy=ApplicationFacade.getInstance().user.name;
+				dispatchEvent(new Event(ADD));
+				//回复默认样子
+				if(ApplicationFacade.getInstance().user.assistant==1){
+					currentState="assistantState";
+				}else{
+					currentState="normal";
+				}
+			}
+		]]>
+	</mx:Script>
+	<!-- form validator-->
+	<mx:StringValidator  id="orderManValidator" source="{orderMan}" property="text" requiredFieldError="组织者不能为空"/>
+	<mx:StringValidator  id="descriptionValidator" source="{description}" property="text" requiredFieldError="预定说明不能为空"/>
+	<mx:StringValidator  id="startDateValidator" source="{startDate}" property="text" requiredFieldError="开始日期一栏不能为空"/>
+	<mx:StringValidator  id="startMiniValidator" source="{startMini}" property="text" requiredFieldError="开始时间中分钟一栏不能为空"/>
+	<mx:StringValidator  id="endMiniValidator" source="{endMini}" property="text" requiredFieldError="结束时间中分钟一栏不能为空"/>
+	<mx:StringValidator  id="repOptGroupValidator" source="{repOptGroup}" property="selectedValue" requiredFieldError="重复预定一栏不能够为空"/>
+	<mx:StringValidator  id="repeatWeekDayValidator" source="{repeatWeekDay}" property="text" requiredFieldError="星期几一栏不能为空"/>
+    <!-- Form -->
+	<mx:Form>
+		<mx:FormItem label="会议组织者" required="true">
+			<mx:TextInput id="orderMan"   toolTip="会议组织者"/>
+		</mx:FormItem>
+		<mx:FormItem label="预定说明" required="true" toolTip="请说明使用会议室说明">
+			<mx:TextArea  id="description" text="{repeat.description}" width="400" height="100"/>
+		</mx:FormItem>
+		<!--限制开始日期要在当前时间以后-->
+		<mx:FormItem label="开始日期" required="true">
+		    <mx:DateField id="startDate" yearNavigationEnabled="false" selectedDate="{new Date()}"  selectableRange="{{rangeStart:new Date()}}"  color="0x000000"/>
+		</mx:FormItem>
+		<mx:FormItem label="开始时间" required="true" direction="horizontal">
+		    <mx:NumericStepper  id="startHourStepper"  minimum="9" maximum="18" stepSize="1"  value="{repeat.startHour as Number}" width="65"/>
+		    <mx:Label text="时"/>
+		    <mx:ComboBox id="startMini" width="65"  selectedIndex="0">
+		    	<mx:ArrayCollection>
+			        <mx:Object label="00" data="00"/>
+		    	    <mx:Object label="30" data="30"/>
+			    </mx:ArrayCollection>
+		    </mx:ComboBox>
+		    <mx:Label text="分"/>
+		</mx:FormItem>
+		<mx:FormItem label="结束时间" required="true" direction="horizontal">
+		    <mx:NumericStepper id="endHourStepper"   minimum="{startHourStepper.value+1}" maximum="18" stepSize="1"  value="{repeat.endHour as Number}" width="65"/>
+		    <mx:Label text="时"/>
+		    <mx:ComboBox id="endMini" width="65" selectedIndex="0">
+		    	<mx:ArrayCollection>
+		    	    <mx:Object label="00" data="00"/>
+		    	    <mx:Object label="30" data="30"/>
+			    </mx:ArrayCollection>
+		    </mx:ComboBox>
+		     <mx:Label text="分"/>
+		</mx:FormItem>
+		<mx:FormItem label="重复预定" id="repeatFormItem" required="true" direction="horizontal" visible="false">
+		    <mx:RadioButtonGroup id="repOptGroup"  selectedValue="{repeat.repOpt}"/>
+			<mx:RadioButton groupName="repOptGroup" label="当天" value="0" click="currentState='assistantState'"/>
+			<mx:RadioButton groupName="repOptGroup" label="每天" value="1" click="currentState='veryDay'"/>
+			<mx:RadioButton groupName="repOptGroup" label="每周" value="2" click="currentState='veryWeek'"/>
+			<mx:RadioButton groupName="repOptGroup" label="隔N周" value="3" click="currentState='spanWeek'"/>
+		</mx:FormItem>
+		<mx:FormItem label="结束日期" required="true" id="endTimeItem"  visible="false" toolTip="重复预定结束日期">
+		    <mx:DateField id="endDate" yearNavigationEnabled="true"  selectedDate="{startDate.selectedDate}" selectableRange="{{rangeStart:startDate.selectedDate}}"  color="0x000000"/>
+		</mx:FormItem>
+		<mx:FormItem label="全天" id="alldayItem"  direction="horizontal" toolTip="是否预定全天" visible="false">
+		    <mx:RadioButtonGroup id="allday" selectedValue="{repeat.allday}" itemClick="alldayClick(event)"/>
+			<mx:RadioButton groupName="allday" label="否" value="0"/>
+			<mx:RadioButton groupName="allday" label="是" value="1"/>
+		</mx:FormItem>
+		<mx:FormItem label="星期几"  direction="horizontal" id="repeatWeekDayItem" visible="false">
+		    <mx:ComboBox id="repeatWeekDay" width="100" color="0x000000"  selectedIndex="0">
+		    	<mx:ArrayCollection>
+			        <mx:Object label="星期一" data="2"/>
+			        <mx:Object label="星期二" data="3"/>
+			        <mx:Object label="星期三" data="4"/>
+			        <mx:Object label="星期四" data="5"/>
+			        <mx:Object label="星期五" data="6"/>
+			    </mx:ArrayCollection>
+		    </mx:ComboBox>
+		</mx:FormItem>
+		<mx:FormItem label="隔周"  direction="horizontal" id="weekSpanItem" visible="false">
+		    <mx:NumericStepper id="weekSpan"  minimum="1" maximum="5" stepSize="1"  value="{repeat.weekSpan}" width="65"/>
+		</mx:FormItem>
+		<mx:Button id="submitButton" label="提交" click="submit()" />
+	</mx:Form>
+
+	<!--通过一些state来控制一些组件的是否显示-->
+	<mx:states>
+	     <mx:State name="normal" id="normal"></mx:State>
+	     <mx:State name="assistantState" id="assistantState">
+	     	<mx:SetProperty target="{repeatFormItem}" name="visible" value="true"/>
+	     </mx:State>
+	     <mx:State name="veryDay" id="veryDay" basedOn="assistantState">
+	       <mx:SetProperty target="{endTimeItem}" name="visible" value="true"/>
+	       <mx:SetProperty target="{alldayItem}" name="visible" value="true"/>
+	     </mx:State>
+	     <mx:State name="veryWeek" id="veryWeek" basedOn="assistantState">
+	       <mx:SetProperty target="{endTimeItem}" name="visible" value="true"/>
+	       <mx:SetProperty target="{repeatWeekDayItem}" name="visible" value="true"/>
+	       <mx:SetProperty target="{alldayItem}" name="visible" value="true"/>
+	     </mx:State>
+	     <mx:State name="spanWeek" id="spanWeek" basedOn="assistantState">
+	       <mx:SetProperty target="{endTimeItem}" name="visible" value="true"/>
+	       <mx:SetProperty target="{repeatWeekDayItem}" name="visible" value="true"/>
+	       <mx:SetProperty target="{weekSpanItem}" name="visible" value="true"/>
+	       <mx:SetProperty target="{alldayItem}" name="visible" value="true"/>
+	     </mx:State>
+    </mx:states>
+</mx:Canvas>
